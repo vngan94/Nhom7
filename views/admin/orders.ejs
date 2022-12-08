@@ -1,0 +1,96 @@
+<%-layout('layout/admin_layout')%>
+<main class="page-content">
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">FERMEH</div>
+      <div class="ps-3">
+      </div>
+      <div class="ms-auto">
+      </div>
+    </div>
+    <!--end breadcrumb-->
+    <div class="row justify-content-md-center">
+      <div class="col-8 ">
+        
+      </div>
+      <div class="col-md-auto"></div>
+      <div class="col-3 ">
+        <select class="form-select" id="select_status_filter" onchange="select_status(this)" >
+          <option value="0">Tất cả đơn hàng</option>
+          <option value="1">Đã hủy</option>
+          <option value="2">Chờ xác nhận</option>
+          <option value="3">Đang chuẩn bị hàng</option>
+          <option value="4">Đang vận chuyển</option>
+          <option value="5">Giao hàng thành công</option>
+        </select>
+      </div>
+    </div>
+   
+
+         
+      
+             <div class="card-body">
+               <div class="table-responsive"> 
+                 <table class="table align-middle" id="table_of_items">
+                   <thead class="table-light">
+                     <tr>
+                       <th>Mã đơn hàng</th>
+                       <th>Tên khách hàng</th>
+                       <th>Tổng cộng</th>
+                       <th>Ngày lập</th>
+                       <th>Nhân viên lập</th>
+                       <th>Phương thức</th>
+                       <th>Trạng thái</th>
+                       <th>Chi tiết</th>
+
+                     </tr>
+                   </thead>
+                   <tbody id="contain_all_bill">
+                     <%for(let i of bill){%>
+                     <tr <%if(i.TINHTRANG=="Đã hủy"){%>style="color:#ccc;"<%}%>>
+                       <td>#<%=i.MADH%></td>
+                       <%if(i.MAKH==null || i.MAKH==''){%>
+                          <td><%=i.TEN%></td>
+                       <%}else{%>
+                          <td><%=i.TENKH%></td>
+                       <%}%>
+                       <td title="<%=i.TONGTIEN%>"><%=i.TONGTIEN.toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></td>
+                       <td><%=i.NGAYLAP.toLocaleDateString("en-US", {  year: 'numeric', month: 'long', day: 'numeric' })%></td>
+                       <td><%=i.MANV%></td>
+                       <td><% if (i.PHUONGTHUC=='cash') { %>
+                        Thanh toán khi nhận hàng
+                     <% } else { %>
+                         Thanh toán bằng MOMO
+                     <% } %>
+                     </td>
+                       <td><%=i.TINHTRANG%></td>
+                       <td>
+                        <div class="d-flex align-items-center gap-3 fs-6">
+                          <form action="/fermeh/admin/detail-orders" method="get">
+                            <input type="text" name="infor_detail_bill" id="infor_detail_bill" style="display: none;" value="<%=i.MADH%>">
+                            <button style="border:none;background: none;">
+                              <a href="" class="text-primary" data-bs-toggle="tooltip"  data-bs-original-title="Chi tiết" aria-label="Views" style="pointer-events: none;">
+                                <i class="bi bi-eye-fill"></i>
+                              </a>
+                            </button>
+                          </form>
+                        </div>
+                       </td>
+                     </tr>
+                     <%}%>
+                   </tbody>
+                  
+                 </table>
+               </div>
+               
+             </div>
+           </div>
+         </div>
+         
+      </div><!--end row-->
+
+
+  </main>
+  <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/public/jquery/jquery-ui.js"></script>
+  <script src="/public/js/admin/order.js"></script>

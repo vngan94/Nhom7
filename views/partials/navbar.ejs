@@ -1,0 +1,145 @@
+<style>
+    .display-none {
+        display: none !important;
+    }
+
+    .display-block {
+        display: block !important;
+    }
+</style>
+<header>
+    <div class="top-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 d-none d-md-block" style="align-items: center;">
+                    <div class="row">
+                        <div class="col-6" style="padding: 8px 0px;">Chào mừng đến với fermeh</div>
+                        <div class="col-6" style="padding: 8px 0px;">Hotline: 0123456789</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-3 col-6 "><a href="/fermeh/favourite" class="nav-link text-end"
+                                style="color: #fff;"><i class="far fa-heart" style="padding-right: 10px;"></i>Yêu
+                                thích</a>
+                        </div>
+                        <div class="col-md-3 col-6 top-header-item-user">
+                            <a href="#" class="nav-link text-md-end text-sm-start" id="text-infor-user"
+                                style="color: #fff;min-width: 200px;">
+                                <i class="far fa-user" style="padding-right: 10px;"></i>
+                                <%=(typeof taikhoan !="undefined" ? taikhoan : "Tài khoản" )%>
+                            </a>
+                        </div>
+                        <div class="top-header-user login-signup">
+                            <a href="/fermeh/login" id="link-login">Đăng nhập</a>
+                            <a href="/fermeh/signup" id="link-signup">Đăng ký</a>
+                        </div>
+                        <!-- <div class="top-header-user order-setting-logout">
+                            <a href="/fermeh/order" id="link-login">Đơn mua</a>
+                            <a href="/fermeh/setting" id="link-signup">Cài đặt</a>
+                            <a href="/fermeh/logout" id="link-signup">Đăng xuất</a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="navbar navbar-light navbar-expand-lg position-relative main-nav bg-light d-block ">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="padding: 0 0 0 30px;" href="/fermeh">FERMEH</a>
+            <div class="collapse navbar-collapse main-nav-list-item" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown"><a class="nav-link" href="/fermeh/collections/nam" style="padding: 0 30px;">
+                            NAM
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown"><a class="nav-link" href="/fermeh/collections/nu" style="padding: 0 30px;">
+                            NỮ
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown"><a class="nav-link" href="/fermeh/collections/tre-em" style="padding: 0 30px;">
+                            TRẺ EM
+                        </a>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link" style="padding: 0 30px;">FLASH SALE</a></li>
+                </ul>
+            </div>
+            <form class="d-flex" style="padding: 0 30px 0 0;">
+                <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit" style="padding: 0 10px;"><img
+                        src="/public/img/search-interface-symbol.png" alt="search-btn"
+                        style="height: 30px;width: 30px; color: white;"></button>
+            </form>
+        </div>
+    </div> -->
+    <nav class="main-nav-bar d-flex flex-wrap align-items-center" style="width: 100%;">
+        <div class="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        <div class="nav-logo"><a href="/fermeh">FERMEH</a></div>
+        <div class="navbar-item d-flex">
+            <li><a href="/fermeh/collections/nam"> NAM </a></li>
+            <li><a href="/fermeh/collections/nu"> NỮ </a></li>
+            <li><a href="/fermeh/collections/treem"> TRẺ EM </a></li>
+            <li><a href="/fermeh/flashsale"> FLASH SALE </a></li>
+        </div>
+        <div class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <div class="cancel-icon"><i class="fa-solid fa-xmark"></i></div>
+        <form class="navbar-search" action="http://localhost:3000/fermeh/search" method="get">
+            <input type="text" class="search-data" placeholder="Tìm kiếm" name="name">
+            <button type="submit" class="searchform-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+        <div class="navbar-cart"><a href="/fermeh/cart"><i class="fa-solid fa-cart-shopping"></i></a></div>
+    </nav>
+</header>
+<script>
+    const menuBtn = document.querySelector(".menu-icon");
+    const searchBtn = document.querySelector(".search-icon");
+    const cancelBtn = document.querySelector(".cancel-icon");
+    const items = document.querySelector(".navbar-item");
+    const form = document.querySelector("form");
+    const login_signup = document.querySelector('.login-signup')
+    const setting_logout = document.querySelector('.order-setting-logout')
+    window.onload = () => {
+        if (document.querySelector('#text-infor-user').textContent.trim() === 'Tài khoản') {
+            login_signup.innerHTML = '';
+            let login = document.createElement("a")
+            login.href = "/fermeh/login"; login.innerText = "Đăng nhập"
+            let signup = document.createElement("a")
+            signup.href = "/fermeh/signup"; signup.innerText = "Đăng ký"
+            login_signup.appendChild(login);
+            login_signup.appendChild(signup);
+        }
+        else {
+            login_signup.innerHTML = '';
+            let order = document.createElement("a")
+            order.href = "/fermeh/user/order"; order.innerText = "Đơn mua"
+            let setting = document.createElement("a")
+            setting.href = "/fermeh/user/setting"; setting.innerText = "Cài đặt"
+            let logout = document.createElement("a")
+            logout.href = "/fermeh/user/logout"; logout.innerText = "Đăng xuất"
+            login_signup.appendChild(order)
+            login_signup.appendChild(setting)
+            login_signup.appendChild(logout)
+        }
+        console.log('window is loading')
+    }
+    menuBtn.onclick = () => {
+        items.classList.add("active");
+        menuBtn.classList.add("hide");
+        searchBtn.classList.add("hide");
+        cancelBtn.classList.add("show");
+    }
+    cancelBtn.onclick = () => {
+        items.classList.remove("active");
+        menuBtn.classList.remove("hide");
+        searchBtn.classList.remove("hide");
+        cancelBtn.classList.remove("show");
+        form.classList.remove("active");
+        cancelBtn.style.color = "#ff3d00";
+    }
+    searchBtn.onclick = () => {
+        form.classList.add("active");
+        searchBtn.classList.add("hide");
+        cancelBtn.classList.add("show");
+    }
+</script>

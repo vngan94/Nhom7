@@ -1,0 +1,146 @@
+<%-layout('layout/admin_layout')%>
+<style>
+  .warning{
+    border: 1px solid red;
+  }
+</style>
+<main class="page-content">
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">Khách hàng</div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          
+        </nav>
+      </div>
+      
+    </div>
+    <!--end breadcrumb-->
+
+      <div class="card">
+        <div class="card-header py-3">
+          <h6 class="mb-0">Tìm kiếm khách hàng</h6>
+        </div>
+        <div class="card-body">
+           <div class="row">
+             <div class="col-12 col-lg-4 d-flex">
+               <div class="card border shadow-none w-100">
+                 <div class="card-body">
+                   <form class="row g-3" action="/fermeh/admin/list-customer" method="post" >
+                     <div class="col-12">
+                       <label class="form-label">Mã khách hàng</label>
+                       <input type="text" class="form-control" name="customerid" id="customerid" required placeholder="Nhập mã khách hàng cần tìm">
+                     </div>
+                     <div class="col-12">
+                      <div class="d-grid">
+                        <label for="" id="text_warning" style="color: red;" class="mb-3"></label>
+                        <button class="btn btn-primary" type="submit" id="">Tìm kiếm</button>
+                      </div>
+                     </div>
+                   </form>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-lg-8 d-flex">
+              <div class="card border shadow-none w-100">
+                <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table align-middle">
+                       <thead class="table-light">
+                         <tr>
+                           <!-- <th><input class="form-check-input" type="checkbox"></th> -->
+                           <th>Mã khách hàng</th>
+                           <th>Tên khách hàng</th>
+                           <th>Email</th>
+                           <th>Số điện thoại</th>
+                           <th>Thao tác</th> 
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr>
+                           <!-- <td><input class="form-check-input" type="checkbox"></td> -->
+                           <%if(customer.length>0){for(let i of customer){%>
+                            <td>#<%=i.MAKH%></td>
+                            <td><%=i.TENKH%></td>
+                            <td><%=i.SDT%></td>
+                            <td><%=i.EMAIL%></td>
+                           
+                            <td>
+                            <div class="d-flex align-items-center gap-3 fs-6">
+                              <form action="">
+                                <input type="text" class="view_detail_customer" style="display: none;" value="<%=i.SDT%>">
+                                <button style="border: none;background: none;" class="btn_detail_customer">
+                                  <a href="" class="text-primary" data-bs-toggle="tooltip"  data-bs-original-title="Chi tiết" ><i class="bi bi-eye-fill"></i></a>
+                                </button>
+                              </form>
+                            </div>
+                           </td>
+                         </tr>
+                        <%}}%>
+                       </tbody>
+                     </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+           </div><!--end row-->
+        </div>
+      </div>
+      <div style="width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.1);z-index: 100;position: fixed; top: 0;left: 0; display: none;" id="view_list_customer">
+        <form action="" style="background-color: #fff;width: 1000px;padding: 50px 50px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);
+        border-radius: 10px;" id="form_view_list_product">
+          <div class="row">
+            <!-- <div class="row" >
+              <div style="width: 150px;height: 150px;">
+                <img src="" alt="product-image" id="view_img" class="img-fluid">
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-3">
+                <label class="form-label" for="">Mã khách hàng</label>
+                <input id="view_makh" class="form-control" type="text"  value="" disabled>
+              </div>
+              <div class="col-9">
+                <label class="form-label" for="">Tên khách hàng</label>
+                <input id="view_tenkh" class="form-control" type="text"  value="" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <label class="form-label" for="">Số điện thoại</label>
+                <input id="view_sdt" class="form-control" type="text"  value="" disabled>
+              </div>
+              <div class="col-8">
+                <label class="form-label" for="">Email</label>
+                <input id="view_email" class="form-control" type="text"  value="" disabled>
+              </div>
+                <div class="row">
+                  <div class="col">
+                    <label class="form-label" for="">Danh sách địa chỉ</label>
+                    <table class="table align-middle">
+                      <thead class="table-light">
+                        <th>#IDDC</th>
+                        <th>Địa chỉ</th>
+                        <th>Loại</th>
+                        <th>Số điện thoại</th>
+                        <th>Tên</th>
+                      </thead>
+                      <tbody id="tbody_form_show_locate">
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+              <div class="mt-3">
+                <button  class="btn btn-warning me-3" id="btn_close_view">Đóng</button>
+              </div>
+            </div>
+          </div>
+       </form>
+      </div>
+  </main>
+  <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/public/jquery/jquery-ui.js"></script> 
+  <script src="/public/js/admin/list_customer.js"></script>

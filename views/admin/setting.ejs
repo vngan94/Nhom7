@@ -1,0 +1,68 @@
+<%-layout('layout/admin_layout')%>
+<style>
+    .warning{
+        border: 1px solid red;
+    }
+</style>
+    <main class="page-content">
+
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center">
+            <div class="breadcrumb-title pe-3 text-white">Thông tin nhân viên</div>
+            <div class="ps-3">
+
+            </div>
+            <div class="ms-auto">
+
+            </div>
+        </div>
+        <!--end breadcrumb-->
+
+        <div class="profile-cover bg-dark"></div>
+
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <div class="card shadow-sm border-0">
+                    <form action="" method="">
+                        <div class="card-body">
+                            <h4 class="mb-0">Đổi mật khẩu</h4>
+                            <hr>
+                            <div class="card shadow-none border">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Thông tin cá nhân</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="form-label">Tên tài khoản</label>
+                                            <input type="text" class="form-control" value="<%=tk%>" disabled>
+                                            <input type="text" class="form-control" value="<%=tk%>" style="display: none;" id="tentk" name="tentk">
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Nhập mật khẩu cũ</label>
+                                            <input type="password" class="form-control" value="" required id="mkcu" name="mkcu">
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Nhập mật khẩu mới</label>
+                                            <input type="password" class="form-control" value="" required id="mkmoi" name="mkmoi">
+                                        </div>
+                                        <div class="col-12">
+                                            <p id="warningtext" style="color: red;"></p>
+                                        </div>
+                                        <div class="col-4">
+                                            <button class="btn btn-dark" id="btn_submit">Thay đổi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end row-->
+
+    </main>
+    <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/public/jquery/jquery-ui.js"></script>
+    <script src="/public/js/admin/setting.js"></script>

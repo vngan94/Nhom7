@@ -1,0 +1,137 @@
+<%-layout('layout/admin_layout')%>
+  <style>
+    .warning-border {
+      border: 1px solid red;
+    }
+  </style>
+  <link rel="stylesheet" href="/public/jquery/jquery-ui.css">
+  <main class="page-content">
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">FERMEH</div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <!--  -->
+        </nav>
+      </div>
+      <!--  -->
+    </div>
+    <!--end breadcrumb-->
+
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card">
+          <div class="card-header py-3 bg-transparent">
+            <h5 class="mb-0">Thêm nhân viên</h5>
+          </div>
+          <div class="card-body">
+            <div class="border p-3 rounded">
+              <form class="row g-3" action="/fermeh/admin/add-new-staff" method="post" enctype="multipart/form-data" onsubmit="return validate()">
+                <div class="row pt-3">
+                  <div class="col-4">
+                    <label class="form-label">Mã nhân viên</label>
+                    <input type="text" class="form-control" placeholder="Mã nhân viên" name="staffcode" id="staffcode"
+                      required value="<%=(typeof infor.staffcode == 'undefined'?'':infor.staffcode)%>">
+                  </div>
+                  <div class="col-8">
+                    <label class="form-label">Họ và tên</label>
+                    <input type="text" class="form-control" placeholder="Họ và tên" name="staffname" id="staffname"
+                      required value="<%=(typeof infor.staffname == 'undefined'?'':infor.staffname)%>">
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-8">
+                    <label class="form-label">Ngày sinh</label>
+                    <input type="date" id="datepicker" class="form-control" name="staffdate" id="staffdate" required 
+                    value="<%=(typeof infor.staffdate == 'undefined'?'':infor.staffdate)%>">
+                  </div>
+                  <div class="col-4">
+                    <label class="form-label">Giới tính</label>
+                    <select class="form-select" name="staffgender" id="staffgender" required>
+                      <%if((typeof infor.staffgender != "undefined" && infor.gender=="NAM") || (typeof infor.staffgender=="undefined")){%>
+                        <option value="NAM" selected>Nam</option>
+                        <option value="NU">Nữ</option>
+                      <%}else{%>
+                        <option value="NAM" >Nam</option>
+                        <option value="NU" selected>Nữ</option>
+                      <%}%>
+                    </select>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-12">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" placeholder="Email" name="staffemail" id="staffemail" 
+                    value="<%=(typeof infor.staffemail == 'undefined'?'':infor.staffemail)%>">
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-6">
+                    <label class="form-label">Số điện thoại</label>
+                    <input type="text" class="form-control" placeholder="Số điện thoại" name="staffphone"
+                      id="staffphone" required value="<%=(typeof infor.staffphone == 'undefined'?'':infor.staffphone)%>">
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Số CMND/CCCD</label>
+                    <input type="text" class="form-control" placeholder="Số CMND/CCCD" name="staffcmnd" id="staffcmnd"
+                      required value="<%=(typeof infor.staffcmnd == 'undefined'?'':infor.staffcmnd)%>">
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-12">
+                    <label class="form-label">Ảnh đại diện</label>
+                    <input class="form-control" type="file" name="staffimg" id="staffimg"
+                      accept="image/png, image/jpeg,image/jpg" required >
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-12">
+                    <label class="form-label">Địa chỉ</label>
+                    <input class="form-control" type="text" name="stafflc" id="stafflc" required placeholder="Địa chỉ">
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-8">
+                    <label class="form-label">Tên tài khoản nhân viên</label>
+                    <input type="text" class="form-control" placeholder="Tên tài khoản" name="staffusername"
+                      id="staffusername" required value="<%=(typeof infor.staffusername == 'undefined'?'':infor.staffusername)%>">
+                  </div>
+                  <div class="col-4">
+                    <label class="form-label">Chức vụ</label>
+                    <select  class="form-select" name="staffposition" required id="staffposition">
+                      <%if((typeof infor.staffposition != "undefined" && infor.staffposition=="2") || (typeof infor.staffposition=="undefined")){%>
+                        <option value="2" selected>Nhân viên</option>
+                        <option value="3">Quản lý</option>
+                      <%}else{%>
+                        <option value="2" >Nhân viên</option>
+                        <option value="3" selected>Quản lý</option>
+                      <%}%>
+                    </select>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-6">
+                    <label class="form-label">Mật khẩu</label>
+                    <input type="password" class="form-control" placeholder="Mật khẩu" value="n1234567" disabled
+                      name="staffpassword" id="staffpassword">
+                  </div>
+                </div>
+                <div id="warning_text" style="color: red;font-size: 18px;"><%=(typeof error != "undefined"?error:"")%></div>
+                <div class="col-12">
+                  <button class="btn btn-dark px-4" id="btn_submit_form">Hoàn thành</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end row-->
+  </main>
+
+  <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/public/jquery/jquery-ui.js"></script>
+  <script src="/public/js/admin/staff_add.js"></script>
+  <!-- <script>
+    $( "#datepicker" ).datepicker();
+  </script> -->

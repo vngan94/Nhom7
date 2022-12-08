@@ -1,0 +1,114 @@
+<%-layout('layout/layout')%>
+<style>
+    body {
+        background-color: #f5f5f5;
+    }
+    .non-favourite {
+        background: url("/public/img/New_folder/no-favourite.webp");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: #fff;
+        transform: translateY(-50%);
+        min-height: 500px;
+        position: absolute;
+        width: 100%;
+        top: 50%;
+    }
+    .product-img {
+        max-height: 100px;
+        min-width: 100px;
+    }
+    .border-choice {
+        border: 2px solid black;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: 600;
+    }
+    .contain-order{
+        margin: 15px 0;
+    }
+    .hhover:hover {
+        cursor: pointer;
+    }
+    .contain-product{
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+<!-- <div class="container" style="min-height: 800px;position: relative;padding: 0 0 30px 0;">
+    <div class="non-favourite" style="min-height: 500px;"></div>
+    <h5 style="position: absolute;top: 58%;left: 51%;transform: translateX(-50%);">Bạn chưa có sản phẩm yêu thích!
+    </h5>
+</div> -->
+<div class="container" style="min-height: 800px;position: relative; padding: 0 0 30px 0;width: 100%;">
+    <div class="row list-items mb-4 mt-4" style="padding: 15px 0;background-color: #fff;">
+        <h5 style="font-weight: 700;margin: 0;text-transform: uppercase;">Đơn hàng</h5>
+    </div>
+    
+    <%for(let i of arr){let tong=0;let tinhtrang=''%>
+    <div class="row mt-4 contain-order " >
+        <%let cnt=0;for(let j of i){tong+=j.GIA*j.SL;tinhtrang=j.TINHTRANG;%>   
+        <div class="d-flex contain-product" style="background-color: #fff;padding: 15px 12px;">
+            <div class="product-img">
+                <img src="/public/img/product/<%=j.IDHA%>" alt="product" class="img-fluid"
+                    style="width: 100%;height: 100%;">
+            </div>
+            <div style="width: 100%;">
+                <div class="row">
+                    <div class="col-8" style="position: relative;">
+                        <div class="ps-3">
+                            <h3>
+                                <%=j.TENSP%>
+                            </h3>
+                           
+                            <div class="d-flex" style="margin-top: 25px;">
+                                <div class="size-choice border-choice">
+                                    Size: <span style="margin-right: 3px;">
+                                        <%=j.SIZE%>
+                                </div>
+                                <div class="ms-3 quantity-choice border-choice">
+                                    Số lượng: <span style="margin-right: 3px;">
+                                        <%=j.SL%>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 d-flex" style="align-items: flex-end;justify-content: center;flex-direction: column;">
+                       <%if(cnt==0){%>
+                        <div style="padding: 0 30px;">
+                            <form action="/fermeh/user/detail_order" method="get">
+                                <button class="mb-2 btn btn-success cancel_bill_btn" type="submit" style="padding: 0 30px;" >
+                                    <%=tinhtrang%>
+                                    <input type="number" style="display: none;"  value="<%=j.MAHD%>" name="mahd" >
+                                    <input type="number"  style="display: none;" value="<%=j.IDDH%>" name="madh" >
+                                </button>
+                            </form>
+                            
+
+                        </div>
+                       <%}%>
+                        <h5 style="text-align: center;color: #ff3d00;font-size: 25px;font-weight: 700;padding: 0 30px;" id="" title="">
+                           <%=parseInt(j.GIA)*parseInt(j.SL)%>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%cnt++;}%>
+        <!--  -->
+        <div class="d-flex" style="align-items: center;justify-content: end;background-color: #fff;padding: 15px 15px;">
+            <span  style="padding: 0 15px;font-size: 18px;">
+                <i class="fa-solid fa-coins"></i>
+                Tổng số tiền:   
+                <h5 style="text-align: center;color: #ff3d00;font-size: 25px;font-weight: 700;padding: 0 10px;display: inline-block;" id="" title="">
+                    <%=tong%>
+                 </h5>
+            </span>
+        </div>
+    </div>
+    
+    <%}%>
+</div>
+<script src="/public/jquery/jquery-3.6.0.min.js"></script>
+<script src="/public/jquery/jquery-ui.js"></script>
+<script src="/public/js/user/order.js"></script>

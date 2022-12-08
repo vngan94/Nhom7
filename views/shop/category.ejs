@@ -1,0 +1,294 @@
+<%-layout('layout/layout')%>
+    <style>
+        .navi-size div:hover {
+            background-color: black;
+            
+        }
+        .navi-size a:hover{
+            color: white !important;
+        }
+        .navi-size{
+            margin: 4px 0;
+        }
+        .navi-size div {
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            margin: 0 4px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .product-img {
+            transition: all 0.3s;
+        }
+
+        .product-img:hover {
+            transform: scale(1.01);
+            box-shadow: var(--purple) 0px 5px 15px;
+        }
+
+        .list-brand a {
+            display: block;
+            text-decoration: none;
+            color: black;
+            font-size: 1.1rem;
+            padding: 4px 0;
+        }
+
+        .gender-choice-item {
+            color: #000;
+            font-size: 1.2rem;
+        }
+    </style>
+    <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/public/js/category.js"></script>
+    <div class="w-100 fixed-top d-block d-lg-none" style="background-color: rgba(0, 0, 0, 0.3);height: 100vh;">
+        <div class="fixed-top bg-light" style="height: 100vh;width: 40%;;left: 60%;"></div>
+    </div>
+    <div class="container-fluid mt-5">
+        <div class="row d-flex justify-content-around">
+            <div class="col-lg-2 ps-4 d-none d-lg-block pe-0">
+                <!-- <div class="row mb-3 mt-2">
+                    <h3 style="font-weight: 450;letter-spacing: 1px; font-size: 1.4rem;">Giới tính</h3>
+                    <form action="">
+                        <div class="mb-2 gender-choice-item">
+                            <%if(title=='San pham cho nam'){%>
+                                <input type="checkbox" name="gender" id="gender_men" class="form-check-input me-1" checked>
+                           
+                            <%}else{%>
+                                <input type="checkbox" name="gender" id="gender_men" class="form-check-input me-1">
+                            <%}%>
+                            <label for="gender_men">Nam</label>
+                        </div>
+                        <div class="mb-2 gender-choice-item">
+                            <%if(title=='San pham cho nu'){%>
+                                <input type="checkbox" name="gender" id="gender_wm" class="form-check-input me-1" checked>
+                            <%}else{%>
+                                <input type="checkbox" name="gender" id="gender_wm" class="form-check-input me-1">
+                            <%}%>
+                            <label for="gender_wm">Nữ</label>
+                        </div>
+                        <div class="mb-2 gender-choice-item">
+                            <%if(title=='San pham cho tre em'){%>
+                                <input type="checkbox" name="gender" id="gender_child" class="form-check-input me-1" checked>
+                            <%}else{%>
+                                <input type="checkbox" name="gender" id="gender_child" class="form-check-input me-1">
+                            <%}%>
+                            <label for="gender_child">Trẻ em</label>
+                        </div>
+                    </form>
+                </div> -->
+                <div class="row">
+                    <h3 style="font-weight: 450;letter-spacing: 1px; font-size: 1.4rem;">Thương hiệu</h3>
+                    <ul class="list-brand" style="list-style: none;">
+                        <li>
+                            <a href="/fermeh/collections/brand/nike">
+                                Nike
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/fermeh/collections/brand/jordan">
+                                Jordan
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/fermeh/collections/brand/adidas">
+                                Adidas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/fermeh/collections/brand/puma">
+                                Puma
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/fermeh/collections/brand/brooks">
+                                Brooks
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/fermeh/collections/brand/fila">
+                                Fila
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/fermeh/collections/brand/vans">
+                                Vans
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/fermeh/collections/brand/newbalance">
+                                New Balance
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/fermeh/collections/brand/sergiorossi">
+                                Sergio Rossi
+                            </a>
+                        </li>
+                        <li class="pb-3" style="border-bottom: 1px solid #ccc;">
+                            <a href="/fermeh/collections/brand/santoni">
+                                Santoni
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row ">
+                    <h3 style="font-weight: 450;letter-spacing: 1px; font-size: 1.4rem;">Size</h3>
+                    <%if(name=='nam'){for(let i=0;i<5;i++){%>
+                        <div class="row d-flex navi-size">
+                            <%for(let j=0;j<4;j++){%>
+                                <div style="width: 20%;height: 62px;line-height: 62px;" class="p-0 text-center"><a href="/fermeh/collections/size/nam/<%=35+j+(i*4)%>"
+                                    class="text-decoration-none text-dark w-100 d-block"><%=35+j+(i*4)%></a></div>
+                            <%}%>
+                        </div>
+                    <%}}%>
+                    <%if(name=='nu'){for(let i=0;i<4;i++){%>
+                        <div class="row d-flex navi-size">
+                            <%for(let j=0;j<4;j++){%>
+                                <div style="width: 20%;height: 62px;line-height: 62px;" class="p-0 text-center"><a href="/fermeh/collections/size/nu/<%=30+j+(i*4)%>"
+                                    class="text-decoration-none text-dark w-100 d-block"><%=30+j+(i*4)%></a></div>
+                            <%}%>
+                        </div>
+                    <%}}%>
+                    <%if(name=='treem'){for(let i=0;i<5;i++){%>
+                        <div class="row d-flex navi-size" >
+                            <%for(let j=0;j<4;j++){%>
+                                <div style="width: 20%;height: 62px;line-height: 62px;" class="p-0 text-center"><a href="/fermeh/collections/size/treem/<%=16+j+(i*4)%>"
+                                    class="text-decoration-none text-dark w-100 d-block"><%=16+j+(i*4)%></a></div>
+                            <%}%>
+                        </div>
+                    <%}}%>
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-12 ">
+                <section class="row row-cols-2 row-cols-lg-3 main-list">
+                    <!-- {if(list[i].DANHMUC=name){ -->
+                    <%for(let i=0;i<list.length;i++){%>
+                        <div class=" col mb-4" style="height: 750px;">
+                            <a href="/fermeh/detail/<%=list[i].MASP%>" class="text-dark text-decoration-none">
+                                <img src="/public/img/product/<%=list[i].HA%>" alt="shoes-img"
+                                    class="img-fluid mb-3 product-img h-75 w-100">
+                                <h4 class="text-info">
+                                    <%=list[i].TENSP%>
+                                </h4>
+                                <p class="text-muted"><%=list[i].TENSP%></p>
+                                <h5 class="text-bold">
+                                    <%=list[i].GIA%> VND
+                                </h5>
+                                <%if(typeof(list[i].SALE) != 'undefined'){%>
+                                    <p style="color: rgb(65, 161, 57);"><%=list[i].SALE%> off</p>
+                                <%}%>
+                            </a>
+                        </div>
+                        <%}%>
+                            <!-- <div class=" col mb-4">
+                                <a href="#" class="text-dark text-decoration-none">
+                                    <img src="/public/img/slider-img/lebron-19-basketball-shoes-pbfCF3-1.jpg"
+                                        alt="shoes-img" class="img-fluid">
+                                    <h4 class="text-info">Lebron 19</h4>
+                                    <p class="text-muted">Men'shoes</p>
+                                    <h5>2.699.000<sup>d</sup></h5>
+                                </a>
+                            </div>
+                            <div class=" col mb-4">
+                                <a href="#" class="text-dark text-decoration-none">
+                                    <img src="/public/img/slider-img/lebron-19-basketball-shoes-pbfCF3-1.jpg"
+                                        alt="shoes-img" class="img-fluid">
+                                    <h4 class="text-info">Lebron 19</h4>
+                                    <p class="text-muted">Men'shoes</p>
+                                    <h5>2.699.000<sup>d</sup></h5>
+                                </a>
+                            </div>
+                            <div class=" col mb-4">
+                                <a href="#" class="text-dark text-decoration-none">
+                                    <img src="/public/img/slider-img/lebron-19-basketball-shoes-pbfCF3-1.jpg"
+                                        alt="shoes-img" class="img-fluid">
+                                    <h4 class="text-info">Lebron 19</h4>
+                                    <p class="text-muted">Men'shoes</p>
+                                    <h5>2.699.000<sup>d</sup></h5>
+                                </a>
+                            </div>
+                            <div class=" col mb-4">
+                                <a href="#" class="text-dark text-decoration-none">
+                                    <img src="/public/img/slider-img/lebron-19-basketball-shoes-pbfCF3-1.jpg"
+                                        alt="shoes-img" class="img-fluid">
+                                    <h4 class="text-info">Lebron 19</h4>
+                                    <p class="text-muted">Men'shoes</p>
+                                    <h5>2.699.000<sup>d</sup></h5>
+                                </a>
+                            </div>
+                            <div class=" col mb-4">
+                                <a href="#" class="text-dark text-decoration-none">
+                                    <img src="/public/img/slider-img/lebron-19-basketball-shoes-pbfCF3-1.jpg"
+                                        alt="shoes-img" class="img-fluid">
+                                    <h4 class="text-info">Lebron 19</h4>
+                                    <p class="text-muted">Men'shoes</p>
+                                    <h5>2.699.000<sup>d</sup></h5>
+                                </a>
+                            </div> -->
+                </section>
+                <!-- <section class="row mb-4">
+                    <div class="col-4">
+                        <a href="" class="text-dark text-decoration-none">
+                            <img src="/public/img/slider-img/lebron-19-basketball-shoes-pbfCF3-1.jpg" alt="shoes-img"
+                                class="img-fluid">
+                            <h4 class="text-info">Lebron 19</h4>
+                            <p class="text-muted">Men'shoes</p>
+                            <h5>2.699.000<sup>d</sup></h5>
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="" class="text-dark text-decoration-none">
+                            <img src="/public/img/slider-img/lebron-19-basketball-shoes-pbfCF3-1.jpg" alt="shoes-img"
+                                class="img-fluid">
+                            <h4 class="text-info">Lebron 19</h4>
+                            <p class="text-muted">Men'shoes</p>
+                            <h5>2.699.000<sup>d</sup></h5>
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="" class="text-dark text-decoration-none">
+                            <img src="/public/img/slider-img/lebron-19-basketball-shoes-pbfCF3-1.jpg" alt="shoes-img"
+                                class="img-fluid">
+                            <h4 class="text-info">Lebron 19</h4>
+                            <p class="text-muted">Men'shoes</p>
+                            <h5>2.699.000<sup>d</sup></h5>
+                        </a>
+                    </div>
+                </section>
+                <section class="row mb-4">
+                    <div class="col-4">
+                        <a href="" class="text-dark text-decoration-none">
+                            <img src="/public/img/slider-img/lebron-19-basketball-shoes-pbfCF3-1.jpg" alt="shoes-img"
+                                class="img-fluid">
+                            <h4 class="text-info">Lebron 19</h4>
+                            <p class="text-muted">Men'shoes</p>
+                            <h5>2.699.000<sup>d</sup></h5>
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="" class="text-dark text-decoration-none">
+                            <img src="/public/img/slider-img/lebron-19-basketball-shoes-pbfCF3-1.jpg" alt="shoes-img"
+                                class="img-fluid">
+                            <h4 class="text-info">Lebron 19</h4>
+                            <p class="text-muted">Men'shoes</p>
+                            <h5>2.699.000<sup>d</sup></h5>
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="" class="text-dark text-decoration-none">
+                            <img src="/public/img/slider-img/lebron-19-basketball-shoes-pbfCF3-1.jpg" alt="shoes-img"
+                                class="img-fluid">
+                            <h4 class="text-info">Lebron 19</h4>
+                            <p class="text-muted">Men'shoes</p>
+                            <h5>2.699.000<sup>d</sup></h5>
+                        </a>
+                    </div>
+                </section> -->
+            </div>
+        </div>
+    </div>

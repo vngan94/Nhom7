@@ -1,0 +1,210 @@
+<%-layout('layout/admin_layout')%>
+<main class="page-content">
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">Chi tiết đơn hàng</div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          
+        </nav>
+      </div>
+      <div class="ms-auto">
+        
+      </div>
+      <form action="/fermeh/admin/detail-orders" method="get">
+        <div class="input-group">
+          <input type="number" min="1" class="form-control" name="infor_detail_bill" id="infor_detail_bill" placeholder="Nhập mã đơn hàng">
+          <span class="input-group-btn">
+            <button type="submit" class="btn btn-dark">Tìm</button>
+          </span>
+        </div>
+      </form>
+    </div>
+    <!--end breadcrumb-->
+    <%if(bill.length !=0 && detail.length !=0){%>
+      <div class="card">
+        <div class="card-header py-3"> 
+          <div class="row g-3 align-items-center">
+            <div class="col-12 col-lg-4 col-md-6 me-auto">
+              <h5 class="mb-1"><%=bill[0].NGAYLAP.toLocaleDateString("en-US",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })%></h5>
+              <p class="mb-0" id="mahd" style="display: none;">#<%=bill[0].MAHD%>  </p> 
+              <p class="mb-0" id="madh">#<%=bill[0].IDDH%> || Nhân viên lập đơn hàng: <%=bill[0].MANV%> </p> 
+            </div>
+            <%if(detail[0].TINHTRANG=="Chờ xác nhận"){%>
+            <div class="col-12 col-lg-3 col-6 col-md-3">
+                <button type="button" class="btn btn-primary" onclick="accept()">DUYỆT ĐƠN HÀNG</button>
+            </div>
+            <%}%>
+          </div>
+         </div>
+        <div class="card-body">
+            <div class="row row-cols-1 row-cols-xl-2 row-cols-xxl-3">
+               <div class="col">
+                 <div class="card border shadow-none radius-10">
+                   <div class="card-body">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="icon-box bg-light-primary border-0">
+                        <i class="bi bi-person text-primary"></i>
+                      </div>
+                      <div class="info">
+                         <h6 class="mb-2">Khách hàng</h6>
+                         <%if(bill[0].MAKH==null || bill[0].MAKH==''){%>
+                          <p class="mb-1"><%=bill[0].TEN%></p>
+                          
+                          <p class="mb-1"><%=bill[0].SDT%></p>
+                         <%}else{%>
+                          <p class="mb-1"><%=bill[0].TENKH%></p>
+                          
+                          <p class="mb-1"><%=bill[0].SDTKH%></p>
+                         <%}%>
+                      </div>
+                   </div>
+                   </div>
+                 </div>
+               </div>
+               <div class="col">
+                <div class="card border shadow-none radius-10">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="icon-box bg-light-success border-0">
+                        <i class="bi bi-currency-dollar"></i>
+                      </div>
+                      <div class="info">
+                         <h6 class="mb-2">Phương thức thanh toán</h6>
+                         
+                         <p class="mb-1"><% if (bill[0].PHUONGTHUC=='cash') { %>
+                          Thanh toán khi nhận hàng
+                       <% } else { %>
+                          Thanh toán bằng MOMO
+                       <% } %></p>
+                         
+                       
+                      </div>
+                   </div>
+                   </div>
+                  </div>
+               </div>
+              <div class="col">
+                <div class="card border shadow-none radius-10">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="icon-box bg-light-danger border-0">
+                        <i class="bi bi-geo-alt text-danger"></i>
+                      </div>
+                      <div class="info">
+                        <h6 class="mb-2">Địa chỉ giao hàng</h6>
+                        
+                        <p class="mb-1"><strong>Địa chỉ</strong> : <%=bill[0].DIACHI%></p>
+                      </div>
+                    </div>
+                  </div>
+                 </div>
+            </div>
+            <div class="col">
+              <div class="card border shadow-none radius-10">
+                <div class="card-body">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="icon-box bg-light-danger border-0">
+                      <i class="bi bi-truck text-danger"></i>
+                    </div>
+                    <div class="info">
+                      <h6 class="mb-2">Tình trạng đơn hàng</h6>
+                      <%for(let i of time){%>
+                        
+                        <p><%=i.NGAY.toLocaleDateString("en-US", {  year: 'numeric', month: 'long', day: 'numeric' })%> <%=i.GIO%>: <%=i.TINHTRANG%></td>
+                      <%}%>
+                      
+                    </div>
+                  </div>
+                </div>
+               </div>
+          </div>
+          </div><!--end row-->
+
+          <div class="row">
+              <div class="col-12 col-lg-8">
+                 <div class="card border shadow-none radius-10">
+                   <div class="card-body">
+                       <div class="table-responsive">
+                         <table class="table align-middle mb-0">
+                           <thead class="table-light">
+                             <tr>
+                               <th>Sản phẩm</th>
+                               <th>Size</th>
+                               <th>Giá bán</th>
+                               <th>Số lượng</th>
+                               <th>Thành tiền</th>
+                             </tr>
+                           </thead>
+                           <tbody>
+                             <%for(let i of detail){%> 
+                              <tr>
+                                <td>
+                                  <div class="orderlist">
+                                   <a class="d-flex align-items-center gap-2" href="javascript:;">
+                                     <div class="product-box">
+                                         <img src="/public/img/product/<%=i.IDHA%>" alt="">
+                                     </div>
+                                     <div>
+                                         <P class="mb-0 product-title"><%=i.TENSP%></P>
+                                     </div>
+                                    </a>
+                                  </div>
+                                </td>
+                                <td><%=i.SIZE%></td>
+                                <td><%=i.GIA.toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></td>
+                                <td><%=i.SL%></td>
+                                <td><%=i.tong.toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></td>
+                              </tr>
+                             <%}%>
+                           </tbody>
+                         </table>
+                       </div>
+                   </div>
+                 </div>
+              </div>
+              <div class="col-12 col-lg-4">
+                <div class="card border shadow-none bg-light radius-10">
+                  <div class="card-body">
+                      <div class="d-flex align-items-center mb-4">
+                         <div>
+                            <h5 class="mb-0">Tình trạng</h5>
+                         </div>
+                         <div class="ms-auto">
+                           <!-- <button type="button" class="btn <%if(detail[0].HUY==1){%>alert-danger<%}else{%>alert-success<%}%> radius-30 px-4"><%if(detail[0].HUY==1){%>Đã hủy<%}else{%>Xác nhận<%}%></button> -->
+                           <button style="
+                           padding: 3px 27px;
+                           border: none;
+                           border-radius: 5px;
+                           background-color: green; ">
+                            <%=detail[0].TINHTRANG%>
+                           </button disabled>
+                          
+                          </div>
+                      </div>
+                        <div class="d-flex align-items-center mb-3">
+                          <div>
+                            <h5 class="mb-0">Tổng cộng</h5>
+                          </div>
+                          <div class="ms-auto">
+                            <h5 class="mb-0" title="<%=bill[0].TONGTIEN%>"><%=bill[0].TONGTIEN.toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></h5>
+                        </div>
+                      </div>
+                     
+                  </div>
+                </div>
+                
+             </div>
+             
+          </div><!--end row-->
+
+        </div>
+      </div>
+      <%}else{%>
+        <h3 style="text-align: center;"> Mã đơn hàng không tồn tại</h3>
+         
+      <%}%>
+  </main>
+  <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/public/jquery/jquery-ui.js"></script>
+<script src="/public/js/admin/order.js"></script>

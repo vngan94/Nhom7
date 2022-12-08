@@ -1,0 +1,101 @@
+<%-layout('layout/layout')%>
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .non-favourite {
+            background: url("/public/img/New_folder/no-favourite.webp");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: #fff;
+            transform: translateY(-50%);
+            min-height: 500px;
+            position: absolute;
+            width: 100%;
+            top: 50%;
+        }
+
+        .product-img {
+            max-height: 130px;
+            min-width: 130px;
+        }
+
+        .border-choice {
+            border: 2px solid black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+    </style>
+    <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/public/js/fav.js"></script>
+    <%if(fav===''){%>
+        <div class="container" style="min-height: 800px;position: relative;padding: 0 0 30px 0;">
+            <div class="non-favourite" style="min-height: 500px;"></div>
+            <h5 style="position: absolute;top: 58%;left: 51%;transform: translateX(-50%);">Bạn chưa có sản phẩm yêu thích!
+            </h5>
+        </div>
+    <%}else{%>
+    <div class="container" style="min-height: 800px;position: relative; padding: 0 0 30px 0;">
+        <div class="row list-items mb-4 mt-4" style="padding: 15px 0;background-color: #fff;">
+            <h5 style="font-weight: 700;margin: 0;">YÊU THÍCH</h5>
+        </div>
+    <%for(let i of fav){%>
+        <div class="row mt-4">
+            <div class="d-flex contain-product" style="background-color: #fff;padding: 15px 12px;">
+                <div class="product-img">
+                    <img src="/public/img/product/<%=i.IDHA%>" alt="product" class="img-fluid"
+                        style="width: 100%;height: 100%;">
+                </div>
+                <div style="width: 100%;">
+                    <div class="row">
+                        <div class="col-8" style="position: relative;">
+                            <div class="ps-3">
+                                <h3>
+                                    <%=i.TENSP%>
+                                </h3>
+                                <p style="font-size: 18px;">
+                                    <%=i.CTLOAI%>
+                                </p>
+                                <div class="d-flex" style="margin-top: 25px;">
+                                    <div class="size-choice border-choice">
+                                        Size: <span style="margin-right: 3px;">
+                                            <%=i.SIZE%>
+
+                                    </div>
+
+                                    <div class="ms-3 quantity-choice border-choice">
+                                        Số lượng: <span style="margin-right: 3px;">
+                                            <%=i.SOLUONG%>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <h5 style="text-align: center;color: #ff3d00;font-size: 25px;font-weight: 700;" id="" title="">
+                                <%=i.GIA.toLocaleString('vi', {style : 'currency' , currency
+                                : 'VND' })%>
+                            </h5>
+                            <form action="/fermeh/fav/add-to-cart" method="post">
+                                <button class="btn btn-dark add_to_cart_btn w-100 mt-3 mb-3" value="" style="border-radius: 24px;
+                                padding: 10px;">Thêm vào giỏ hàng</button>
+                                <input type="text" name="masp" style="display: none;" value="<%=i.MASP%>">
+                                <input type="text" name="size" style="display: none;" value="<%=i.SIZE%>">
+                            </form>
+                            <form action="/fermeh/fav/del-product" method="post">
+                                <button class="btn btn-dark delete_btn w-100" value="" style="border-radius: 24px;
+                                padding: 10px;">Xóa</button>
+                                <input type="text" name="masp" style="display: none;" value="<%=i.MASP%>">
+                                <input type="text" name="size" style="display: none;" value="<%=i.SIZE%>">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <%}%>
+    </div>
+    <%}%>

@@ -1,0 +1,126 @@
+<%-layout('layout/admin_layout')%>
+<style>
+  .warning{
+    border: 1px solid red;
+  }
+</style>
+<main class="page-content">
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">Khuyến mãi</div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          
+        </nav>
+      </div>
+      
+    </div>
+    <!--end breadcrumb-->
+
+      <div class="card">
+        <div class="card-header py-3">
+          <h6 class="mb-0">Thêm đợt khuyến mãi mới</h6>
+        </div>
+        <div class="card-body">
+           <div class="row">
+             <div class="col-12 col-lg-4 d-flex">
+               <div class="card border shadow-none w-100">
+                 <div class="card-body">
+                   <form class="row g-3" action="/fermeh/admin/add-new-sale" method="post" onsubmit="return addsalevalidate()">
+                     <div class="col-12">
+                       <label class="form-label">Tên đợt khuyến mãi</label>
+                       <input type="text" class="form-control" name="salename" id="salename" required>
+                     </div>
+                     <div class="col-12">
+                      <label class="form-label">Ngày bắt đầu</label>
+                      <input type="date" class="form-control" value="<%=new Date()%>" name="salestartdate" id="salestartdate" 
+                      required max="<%=new Date().getFullYear()%>-12-31"  min="<%=new Date().getFullYear()%>-01-01">
+                     </div>
+                     <div class="col-12">
+                      <label class="form-label">Ngày kết thúc</label>
+                      <input type="date" class="form-control" name="saleenddate" id="saleenddate" 
+                      required max="<%=new Date().getFullYear()%>-12-31" min="<%=new Date().getFullYear()%>-01-01">
+                     </div>
+                    <!-- <div class="col-12">
+                      <label class="form-label">Phần trăm khuyến mãi</label>
+                      <input type="range" class="form-range" min="1" max="100" step="1" id="input_percent_sale"name="input_percent_sale" value="1">
+                      <label class="form-label" id="label_input_percent_sale" style="font-size: 18px;font-weight: 600;">1%</label>
+                    </div> -->
+                     <div class="col-12">
+                      <label class="form-label">Ghi chú</label>
+                      <textarea class="form-control" rows="3" cols="3" placeholder="Ghi chú" id="salenote" name="salenote" ></textarea>
+                     </div>
+                     <div class="col-12">
+                      <div class="d-grid">
+                        <label for="" id="text_warning" style="color: red;" class="mb-3"></label>
+                        <button class="btn btn-primary" type="submit">Thêm đợt khuyến mãi</button>
+                      </div>
+                     </div>
+                   </form>
+                 </div>
+               </div>
+             </div>
+             <div class="col-12 col-lg-8 d-flex">
+              <div class="card border shadow-none w-100">
+                <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table align-middle">
+                       <thead class="table-light">
+                         <tr>
+                           <!-- <th><input class="form-check-input" type="checkbox"></th> -->
+                           <th>ID</th>
+                           <th>Tên </th>
+                           <th>Ngày bắt đầu</th>
+                           <th>Ngày kết thúc</th>
+                           <th>Ghi chú</th>
+                           <th>Mã nhân viên</th>
+                           <th>Thao tác</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr>
+                           <!-- <td><input class="form-check-input" type="checkbox"></td> -->
+                           <%if(sale.length>0){for(let i of sale){%>
+                            <td>#<%=sale[0].IDKM%></td>
+                            <td><%=sale[0].TENKM%></td>
+                            <td><%=sale[0].NGAYBATDAU.toLocaleDateString("en-US",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })%></td>
+                            <td><%=sale[0].NGAYKETTHUC.toLocaleDateString("en-US",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })%></td>
+                            <td><%=sale[0].GHICHU%></td>
+                            <td><%=sale[0].MANV%></td>
+                            <td>
+                            <div class="d-flex align-items-center gap-3 fs-6">
+                              <form action="">
+                                <input type="text" id="view_detail_sale" style="display: none;">
+                                <button style="border: none;background: none;">
+                                  <a href="javascript:;" class="text-primary" data-bs-toggle="tooltip"  data-bs-original-title="Chi tiết"><i class="bi bi-eye-fill"></i></a>
+                                </button>
+                              </form>
+                              <a href="javascript:;" class="text-warning" data-bs-toggle="tooltip"  data-bs-original-title="Chỉnh sửa" ><i class="bi bi-pencil-fill"></i></a>
+                              <a href="javascript:;" class="text-danger" data-bs-toggle="tooltip"  data-bs-original-title="Xóa" ><i class="bi bi-trash-fill"></i></a>
+                            </div>
+                           </td>
+                         </tr>
+                        <%}}%>
+                       </tbody>
+                     </table>
+                  </div>
+                  <!-- <nav class="float-end mt-0" aria-label="Page navigation">
+                    <ul class="pagination">
+                      <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                  </nav> -->
+                </div>
+              </div>
+            </div>
+           </div><!--end row-->
+        </div>
+      </div>
+
+  </main>
+  <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/public/jquery/jquery-ui.js"></script>
+  <script src="/public/js/admin/sale.js"></script>

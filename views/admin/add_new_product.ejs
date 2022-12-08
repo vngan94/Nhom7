@@ -1,0 +1,151 @@
+<%-layout('layout/admin_layout')%>
+  <style>
+    .warning-border {
+      border: 1px solid red;
+    }
+  </style>
+  <main class="page-content">
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">FERMEH</div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <!--  -->
+        </nav>
+      </div>
+      <!--  -->
+    </div>
+    <!--end breadcrumb-->
+
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card">
+          <div class="card-header py-3 bg-transparent">
+            <h5 class="mb-0">Thêm sản phẩm mới</h5>
+          </div>
+          <div class="card-body">
+            <div class="border p-3 rounded">
+              <form class="row g-3" action="/fermeh/admin/add-new-product" method="post" onsubmit="return validate()" enctype="multipart/form-data">
+                <div class="row pt-3">
+                  <div class="col-8">
+                    <label class="form-label">Tên sản phẩm</label>
+                    <input type="text" class="form-control" placeholder="Tên sản phẩm" name="productname" id="productname"
+                      required value="">
+                  </div>
+                  <div class="col-2">
+                    <label class="form-label">Size nhỏ nhất</label>
+                      <select class="form-select" name="productminsize" id="productminsize" required>  
+                        <%for(let i=15;i<=45;i++){if(i==15){%>
+                          <option value="<%=i%>" selected><%=i%></option>
+                        <%}else{%>
+                          <option value="<%=i%>"><%=i%></option>
+                        <%}}%>
+                    </select>
+                  </div>
+                  <div class="col-2">
+                    <label class="form-label">Size lớn nhất</label>
+                      <select class="form-select" name="productmaxsize" id="productmaxsize" required>  
+                        <%for(let i=20;i<=50;i++){if(i==20){%>
+                          <option value="<%=i%>" selected><%=i%></option>
+                        <%}else{%>
+                          <option value="<%=i%>"><%=i%></option>
+                        <%}}%>
+                    </select>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-6">
+                    <label class="form-label">Ảnh thứ nhất</label>
+                    <input class="form-control" type="file" name="productimg1" id="productimg1"
+                      accept="image/png, image/jpeg,image/jpg" required >
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Ảnh thứ 2</label>
+                    <input class="form-control" type="file" name="productimg2" id="productimg2"
+                      accept="image/png, image/jpeg,image/jpg" required>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-6">
+                    <label class="form-label">Ảnh thứ 3</label>
+                    <input class="form-control" type="file" name="productimg3" id="productimg3"
+                      accept="image/png, image/jpeg,image/jpg" required>
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Ảnh thứ tư</label>
+                    <input class="form-control" type="file" name="productimg4" id="productimg4"
+                      accept="image/png, image/jpeg,image/jpg" required>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-6">
+                    <label class="form-label">Ngày ra mắt</label>
+                    <input type="date" class="form-control" name="productdate" id="productdate" required 
+                      value="<%=new Date()%>"
+                      min="2000-01-01" max="<%=(new Date()).getFullYear()%>-<%=(new Date()).getMonth()+1%>-<%=(new Date()).getDate()%>">
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Giá bán</label>
+                    <input type="text" class="form-control" placeholder="Giá bán" name="productprice" id="productprice"
+                      required value="">
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-6">
+                    <label class="form-label">Loại</label>
+                    <select class="form-select" name="productloai" id="productloai" required>  
+                      <option value="GIAY" selected>Giày</option>
+                      <option value="DEP">Dép</option>
+                  </select>
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Phân loại</label>
+                    <select class="form-select" name="productctloai" id="productctloai" required>  
+                      <option value="SNEAKER" selected>Giày thể thao</option>
+                      <option value="CASUAL">Giày thường ngày</option>
+                      <option value="SANDAL">Dép</option>
+                      <option value="FORMAL">Giày da</option>
+                      <option value="HEEL">Giày cao gót</option>
+                  </select>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-6">
+                    <label class="form-label">Hãng sản xuất</label>
+                    <select class="form-select" name="producthangsx" id="producthangsx" required>  
+                      <%for(let i=0;i<brand.length;i++){if(i==0){%>
+                        <option value="<%=brand[i].MAHANG%>" selected><%=brand[i].TENHANG%></option>
+                      <%}else{%>
+                        <option value="<%=brand[i].MAHANG%>"><%=brand[i].TENHANG%></option>
+                      <%}}%>
+                  </select>
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Danh mục</label>
+                    <select class="form-select" name="productdanhmuc" id="productdanhmuc" required>  
+                      <option value="NAM" selected>Nam</option>
+                      <option value="NU">Nữ</option>
+                      <option value="TREEM">Trẻ em</option>
+                  </select>
+                  </div>
+                </div>
+                
+                <div id="warning_text" style="color: red;font-size: 18px;"></div>
+                <div class="col-12">
+                  <button class="btn btn-dark px-4" id="btn_submit_form">Thêm mới</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end row-->
+  </main>
+
+  <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/public/jquery/jquery-ui.js"></script>
+  <script src="/public/js/admin/product_add.js"></script>
+  <!-- <script>
+    $( "#datepicker" ).datepicker();
+  </script> -->

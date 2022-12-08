@@ -1,0 +1,149 @@
+<%-layout('layout/admin_layout')%>
+<style>
+   .prevent-scrolling{
+            overflow-y: hidden;
+        }
+</style>
+<main class="page-content">
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">Fermeh</div>
+      <div class="ps-3">
+        <!-- -->
+      </div>
+      
+    </div>
+    <!--end breadcrumb-->
+
+      <div class="card">
+        <div class="card-header py-3">
+          <h6 class="mb-0">Danh sách nhân viên</h6>
+        </div>
+        <%if(staff===[]){%>
+          <div class="col-12">
+            <h5>Chưa có nhân viên</h5>
+          </div>  
+        <%}else{%>
+        <div class="card-body">
+           <div class="row">
+             <div class="col-12 col-lg-12 d-flex">
+              <div class="card border shadow-none w-100">
+                <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table align-middle">
+                       <thead class="table-light">
+                         <tr>   
+                           <th>Mã NV</th>
+                           <th>Họ và tên</th>
+                           <th>Ngày sinh</th>
+                           <th>Giới tính</th>
+                           <th>Số điện thoại</th>
+                           <th>Số CMND/CCCD</th>
+                           <th>Email</th>
+                           <th>Hình ảnh</th>
+                           <!-- <th>Nghỉ việc</th> -->
+                           <th>Chỉnh sửa</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <%for(let i of staff){%>
+                        <tr>  
+                          <td><%=i.MANV%></td>
+                          <td><%=i.TEN%></td>
+                          <td><%=i.NGAYSINH.toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })%></td>
+                          <td><%=i.GIOITINH%></td>
+                          <td><%=i.SDT%></td>
+                          <td><%=i.CMND%></td>
+                          <td><%=i.EMAIL%></td>
+                          <td><img src="/public/img/staff_inf/<%=i.HINHANH%>" alt="h.a" style="height: 200px;width: 200px;object-fit: cover;"></td>
+                          <td>
+                           <div class="d-flex align-items-center gap-3 fs-6">
+                             <%if(manv!=i.MANV){%>
+                             <form action="http://localhost:3000/fermeh/admin/list-product/edit-staff" method="post">
+                               <input type="text" value="<%=i.MANV.trim()%>" style="display: none;" name="input_edit_staff_code" id="input_edit_staff_code">
+                               <button style="border: none;background: none;" type="submit">
+                                <a href="javascript:;" class="text-warning btn_edit_staff" data-bs-toggle="tooltip"  data-bs-original-title="Chỉnh sửa" ><i class="bi bi-pencil-fill"></i></a>
+                               </button>
+                             </form>
+                             <a href="javascript:;" class="text-danger btn_delete_staff" data-bs-toggle="tooltip"  data-bs-original-title="Xóa" ><i class="bi bi-trash-fill"></i></a>
+                             <%}%>
+                           </div>
+                          </td>
+                        </tr>
+                        <%}%>
+                       </tbody>
+                     </table>
+                  </div>
+                  <!-- <nav class="float-end mt-0" aria-label="Page navigation">
+                    <ul class="pagination">
+                      <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                  </nav> -->
+                </div>
+              </div>
+            </div>
+           </div><!--end row-->
+        </div>
+        <%}%>
+      </div>
+      <div style="width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.3);z-index: 10000;position: fixed; top: 0;left: 0; display: none;" id="check_delete_staff">
+        <form action="" style="background-color: #fff;width: 300px;padding: 50px 50px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);
+        border-radius: 10px;">
+          <div style="text-align: center;">
+            <h4 class="mb-3">Bạn chắc chắn muốn xóa?</h4>
+            <input type="text" style="display: none;" value="" id="infor_for_delete">
+          </div>
+          <div style="text-align: center;">
+            <button id="btn_submit_delete" class="btn btn-warning me-3">Xác nhận</button>
+            <button id="btn_cancel_delete" class="btn btn-light" style="border: 1px solid black;">Hủy bỏ</button>
+          </div>
+       </form>
+      </div>
+  </main>
+  <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/public/jquery/jquery-ui.js"></script>
+  <script>
+    var btnEditStaff = document.querySelectorAll('.btn_edit_staff')
+    var btnDeleteStaff = document.querySelectorAll('.btn_delete_staff')
+    for(let i of btnEditStaff){
+      i.onclick = ()=>{
+        
+      }
+    }
+    for(let i of btnDeleteStaff){
+      i.onclick = ()=>{
+        $('#check_delete_staff').show()
+        $('body').addClass('prevent-scrolling')
+        $('#infor_for_delete').val(i.parentElement.parentElement.parentElement.children[0].innerText)
+      }
+    }
+    $('#btn_cancel_delete').click((e)=>{
+      e.preventDefault()
+      $('#check_delete_staff').hide()
+      $('body').removeClass('prevent-scrolling')
+    })
+    $('#btn_submit_delete').click((e)=>{
+      e.preventDefault()
+      $.ajax({
+        url:"http://localhost:3000/fermeh/admin/delete-staff",
+        method:"POST",
+        data:{manv:$('#infor_for_delete').val().trim()}
+      })
+      .done(async(res)=>{
+        console.log(res)
+        await alert('xoa thanh cong!')
+        location.reload()
+      })
+      .fail(()=>{
+        alert('that bai')
+      })
+      
+      // setTimeout(() => {
+      //   location.reload()
+      // }, 100);
+    })
+  </script>

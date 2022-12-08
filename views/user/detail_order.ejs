@@ -1,0 +1,150 @@
+<%-layout('layout/layout')%>
+<style>
+  
+
+.page-content {
+    background-color: rgb(238, 212, 245);
+  
+    margin: 20px 170px;
+    padding: 1.5rem;
+    transition: all .2s;
+   
+    
+}
+.orderlist .product-box img {
+    width: 100%;
+}
+
+img {
+  
+  height: 10px;
+  width: 10px;
+}
+.orderlist .product-title {
+    color: rgb(25, 27, 34);
+}
+</style>
+<main class="page-content">
+    
+    <h3>Chi tiết hóa đơn</h3>
+    <%if(bill.length !=0 && detail.length !=0){%>
+      <div class="card" style="width: 100%;">
+        <div class="card-header py-3"> 
+          <div class="row g-3 align-items-center">
+            <div class="col-12 col-lg-4 col-md-6 me-auto">
+              <h5 class="mb-1"><%=bill[0].NGAYLAP.toLocaleDateString("en-US",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })%></h5>
+              <p  id="mahd" style="display: none;"><%=bill[0].MAHD%></p>
+            </div>
+            <%if(detail[0].TINHTRANG=="Chờ xác nhận" || detail[0].TINHTRANG=="Đang chuẩn bị hàng"){%>
+            <div class="col-12 col-lg-3 col-6 col-md-3">
+                <button type="button" class="btn btn-primary" onclick="cancel()">HỦY ĐƠN HÀNG</button>
+            </div>
+            <%}%>
+          </div>
+         </div>
+         <div class="row">
+          <div class="col  radius-10 " style="border: 1px solid rgb(225, 222, 222); margin: 20px; border-radius: 10px;">
+            <h6 class="mb-2 mt-2">Khách hàng</h6>
+            <%if(bill[0].MAKH==null || bill[0].MAKH==''){%>
+              <p class="mb-1"><%=bill[0].TEN%></p>
+             
+              <p class="mb-1"><%=bill[0].SDT%></p>
+             <%}else{%>
+              <p class="mb-1"><%=bill[0].TENKH%></p>
+              
+              <p class="mb-1"><%=bill[0].SDTKH%></p>
+             <%}%>
+          </div>
+          
+          <div class="col  radius-10 " style="border: 1px solid rgb(225, 222, 222); margin: 20px; border-radius: 10px">
+            <h6 class="mb-2 mt-2">Phương thức thanh toán</h6>
+            <p class="mb-1"><% if (bill[0].PHUONGTHUC=='cash') { %>
+              Thanh toán khi nhận hàng
+           <% } else { %>
+              Thanh toán bằng MOMO
+           <% } %></p>
+        </div>
+        <div class="row">
+          <div class="col  " style="border: 1px solid rgb(225, 222, 222); margin: 20px; border-radius: 10px">
+            <h6 class="mb-2 mt-2">Địa chỉ giao hàng</h6>
+            <p class="mb-1">  <%=bill[0].DIACHI%></p>  
+          </div>
+          <div class="col  radius-10 " style="border: 1px solid rgb(225, 222, 222); margin: 20px; border-radius: 10px">
+            <h6 class="mb-2 mt-2">Tình trạng đơn hàng</h6>
+            <%for(let i of time){%>
+              
+              <p><%=i.NGAY.toLocaleDateString("en-US", {  year: 'numeric', month: 'long', day: 'numeric' })%> <%=i.GIO%>: <%=i.TINHTRANG%></td>
+            <%}%>
+        </div>
+      </div>
+      <div class="row" style="justify-content: center;">
+        
+        <div class="col-7"  style="border: 1px solid rgb(225, 222, 222); margin: 20px; border-radius: 10px">
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th>Size</th>
+                  <th>Giá bán</th>
+                  <th>Số lượng</th>
+                  <th>Thành tiền</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%for(let i of detail){%> 
+                 <tr>
+                   <td>
+                      <div class="d-flex align-items-center gap-2 " style="height: 20px;">
+                          <!-- <img src="/public/img/product/<%=i.IDHA%>" alt="" style="height: 100%"> -->
+                          <P class="mb-0 "><%=i.TENSP%></P>
+                      </div>
+                    
+                 
+                   </td>
+                   <td><%=i.SIZE%></td>
+                   <td><%=i.GIA.toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></td>
+                   <td><%=i.SL%></td>
+                   <td><%=i.tong.toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></td>
+                 </tr>
+                <%}%>
+              </tbody>
+              
+            </table>
+          </div>
+        </div>
+        <div class="col-3"  style="border: 1px solid rgb(225, 222, 222); margin: 20px; border-radius: 10px">  
+            <div >
+              <!-- <button type="button" class="btn <%if(detail[0].HUY==1){%>alert-danger<%}else{%>alert-success<%}%> radius-30 px-4"><%if(detail[0].HUY==1){%>Đã hủy<%}else{%>Xác nhận<%}%></button> -->
+              <button style="
+              padding: 3px 10px;
+              border: none;
+              border-radius: 5px;
+              background-color: green;
+              margin-top: 15px;
+    margin-bottom: 25px;
+">
+               <%=detail[0].TINHTRANG%>
+              </button disabled>
+             
+             </div>
+         
+         <div class="d-flex align-items-center mb-3">
+          <div>
+            <p class="mb-0">Tổng cộng</p>
+          </div>
+          <div class="ms-auto">
+            <h6 class="mb-0" title="<%=bill[0].TONGTIEN%>"><%=bill[0].TONGTIEN.toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></h6>
+        </div>
+         </div>
+
+        </div>
+      </div>
+      </div>
+      
+        
+      <%}%>
+  </main>
+  <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/public/jquery/jquery-ui.js"></script>
+  <script src="/public/js/user/order.js"></script>

@@ -1,0 +1,79 @@
+<%-layout('layout/layout')%>
+    <style>
+        body {
+            background: url('/public/img/New_folder/wave.svg');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .form-contain {
+            height: 800px;
+            /* background-color: #a29bfe; */
+        }
+
+        .form-main {
+            padding: 50px 50px;
+            background-color: #fff;
+            border-radius: 10px;
+            min-width: 400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        .form-main input {
+            padding: 10px 7px;
+        }
+
+        .form-main a:hover {
+            text-decoration: underline !important;
+        }
+        .warning{
+            border: 1px solid red;
+        }
+    </style>
+    <div class="container form-contain">
+        <div class="container-fluid">
+            <form class="form-main" action="/fermeh/signup" method="post" onsubmit="return validate()">
+                <div
+                    style="text-align: center;margin-bottom: 15px;border-bottom: 1px solid #a29bfe;padding-bottom: 7px;">
+                    <label for="" style="font-size: 35px;font-weight: 600;">Đăng ký</label>
+                </div>
+                <div class="mb-3" style="margin-top: 25px;">
+                    <input type="text" class="form-control" id="username" placeholder="Họ và tên" required
+                        name="name" value="<%=(typeof username != 'undefined' ? username : '')%>">
+                </div>
+                <div class="mb-3" style="margin-top: 25px;">
+                    <input type="text" class="form-control" id="phone" placeholder="Số điện thoại" required
+                        name="phoneNumber" value="<%=(typeof phone != 'undefined' ? phone : '')%>">
+                    <!-- <label for="" class=" form-text" style="color: red;"></label> -->
+                </div>
+                <div class="mb-3" style="margin-top: 25px;">
+                    <input type="email" class="form-control" id="emailUser" placeholder="Email khôi phục" required
+                        name="emailUser" value="<%=(typeof phone != 'undefined' ? phone : '')%>">
+                    <!-- <label for="" class=" form-text" style="color: red;"></label> -->
+                </div>
+                <div class="mb-3" style="margin-top: 25px;">
+                    <input type="password" class="form-control" id="password" placeholder="Mật khẩu"
+                        required name="password" value="<%=(typeof pass != 'undefined' ? pass : '')%>">
+                    <label for="" class="form-text" style="color: red;" id="warning">
+                        <%=message%>
+                    </label>
+                </div>
+                <!-- <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div> -->
+                <button type="submit" class="btn w-100" style="padding: 10px 5px;background-color: #a29bfe;">Đăng
+                    ký</button>
+                <div style="text-align: right;">
+                    <label for="" class="mt-4">Bạn đã có tài khoản? <a href="http://localhost:3000/fermeh/login"
+                            style="text-decoration: none;color: #a29bfe;">Đăng nhập</a></label>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/public/js/signup.js"></script>

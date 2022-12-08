@@ -1,0 +1,140 @@
+<%-layout('layout/admin_layout')%>
+<style>
+  .warning-border{
+    border: 1px solid red;
+  }
+</style>
+  <main class="page-content">
+
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center">
+      <div class="breadcrumb-title pe-3 text-white">Thông tin nhân viên</div>
+      <div class="ps-3">
+
+      </div>
+      <div class="ms-auto">
+
+      </div>
+    </div>
+    <!--end breadcrumb-->
+
+    <div class="profile-cover bg-dark"></div>
+
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8 ">
+        <div class="card shadow-sm border-0">
+          <%if(nv.length>0){%>
+          <form action="http://localhost:3000/fermeh/admin/user-profile" enctype="multipart/form-data" onsubmit="return validate()" method="post">
+            <div class="card-body">
+              <h5 class="mb-0">Thông tin nhân viên</h5>
+              <hr>
+              <div class="card shadow-none border">
+                <div class="card-header">
+                  <h6 class="mb-0">Thông tin cá nhân</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row g-3">
+                    <div class="col-4">
+                      <label class="form-label">Mã nhân viên</label>
+                      <input type="text" class="form-control" value="<%=nv[0].MANV%>" disabled >
+                      <input type="text" class="form-control" value="<%=nv[0].MANV%>" style="display: none;" id="staffcode" name="staffcode">
+                    </div>
+                    <div class="col-8">
+                      <label class="form-label">Họ và tên</label>
+                      <input type="text" class="form-control" value="<%=nv[0].TEN%>" id="staffname" name="staffname">
+                    </div>
+                    <div class="col-5">
+                      <label class="form-label">Ngày sinh</label>
+                      
+                      <input type="date" class="form-control" value="<%=Intl.DateTimeFormat('sv-SE').format(new Date(nv[0].NGAYSINH))%>" id="staffdate" name="staffdate" required>
+                    </div>
+                    <div class="col-5">
+                      <label class="form-label">Số CMND/CCCD</label>
+                      <input type="text" class="form-control" value="<%=nv[0].CMND%>"  id="staffcmnd" name="staffcmnd">
+                    </div>
+                    <div class="col-2">
+                      <label class="form-label">Giới tính</label>
+                      <select class="form-select"  id="staffgender" name="staffgender">
+                        <%if(nv[0].GIOITINH=='NAM'){%>
+                          <option value="NAM" selected>NAM</option>
+                          <option value="NU">NU</option>
+                        <%}else{%>
+                          <option value="NAM" >NAM</option>
+                          <option value="NU"selected>NU</option>
+                        <%}%>
+                      
+                      </select>
+                   
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card shadow-none border">
+                <div class="card-header">
+                  <h6 class="mb-0">Thông tin tài khoản</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row g-3">
+                    <div class="col-8">
+                      <label class="form-label">Tên đăng nhập</label>
+                      <input type="text" class="form-control" value="<%=nv[0].TENTK%>" disabled>
+                    </div>
+                    <div class="col-4">
+                      <label class="form-label">Vị trí</label>
+                      <input type="text" class="form-control" value="<%=nv[0].VITRI%>" disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="card shadow-none border">
+                  <div class="card-header">
+                    <h6 class="mb-0">Thông tin liên lạc</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="row g-3">
+                      <div class="col-12">
+                        <label class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" value="<%=nv[0].DIACHI%>" required name="stafflocate" id="stafflocate">
+                      </div>
+                      <div class="col-4">
+                        <label class="form-label">Ảnh đại diện</label>
+                        <img src="/public/img/staff_inf/<%=nv[0].HINHANH%>" alt="Chưa có" class="img-fluid" style="width: 200px;height: 200px;object-fit: contain;">
+                      </div>
+                      <div class="col-8">
+                        <label class="form-label">Thay đổi ảnh đại diện</label>
+                        <input type="file" class="form-control"  id="staffimg" name="staffimg">
+                      </div>
+                      <div class="col-6">
+                        <label class="form-label">Email</label>
+                        <input type="text" class="form-control" value="<%=nv[0].EMAIL%>" id="staffemail" name="staffemail" required>
+                      </div>
+                      <div class="col-6">
+                        <label class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" value="<%=nv[0].SDT%>" id="staffsdt" name="staffsdt" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <label for="" class="form-label" style="color: red;" id="warning_text"><%=typeof(err)=='undefined'?'':err%></label>
+                </div>
+                <div class="col-2">
+                  
+                  <button class="btn btn-dark btn_submit_form">Chỉnh sửa</button>
+                </div>
+              </div>
+          </form>
+          <%}%>
+        </div>
+      </div>
+
+    </div>
+    <!--end row-->
+
+  </main>
+  <script src="/public/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/public/jquery/jquery-ui.js"></script>
+  <script src="/public/js/admin/user_profile.js"></script>

@@ -1,0 +1,319 @@
+<%-layout('layout/admin_layout')%>
+  <!--start content-->
+  <main class="page-content">
+
+    <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-4">
+      <div class="col">
+        <div class="card radius-10">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div>
+                <p class="mb-0 text-secondary">Tổng số đơn hàng</p>
+                <%if(topdh[0].DONHANG == null || topdh[0].DONHANG == ''){%>
+                  <h4 class="my-1">0</h4>
+                <%}else{%>
+                  <h4 class="my-1"><%=topdh[0].DONHANG%></h4>
+                <%}%>
+                
+                <!-- <i class="bi bi-caret-up-fill"></i> 5% from last week -->
+                <p class="mb-0 font-13 text-success"></p>
+              </div>
+              <div class="widget-icon-large bg-gradient-purple text-white ms-auto"><i class="bi bi-basket2-fill"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card radius-10">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div>
+                <p class="mb-0 text-secondary">Tổng doanh thu</p>
+                <%if(topdh[0].TONG == null || topdh[0].TONG == ''){%>
+                  <h4 class="my-1"><%=parseInt(0).TONG.toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></h4>
+                <%}else{%>
+                  <h4 class="my-1"><%=topdh[0].TONG.toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></h4>
+                <%}%>
+                
+                <!-- <i class="bi bi-caret-up-fill"></i> 4.6 from last week -->
+                <p class="mb-0 font-13 text-success"></p>
+              </div>
+              <div class="widget-icon-large bg-gradient-success text-white ms-auto"><i
+                  class="bi bi-currency-exchange"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card radius-10">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div>
+                <p class="mb-0 text-secondary">Tổng số khách hàng</p>
+                <%if(topdh[0].KH == null || topdh[0].KH == ''){%>
+                  <h4 class="my-1">0</h4>
+                <%}else{%>
+                  <h4 class="my-1"><%=topdh[0].KH%></h4>
+                <%}%>
+                <!-- <i class="bi bi-caret-down-fill"></i> 2.7 from last week -->
+                <p class="mb-0 font-13 text-danger"></p>
+              </div>
+              <div class="widget-icon-large bg-gradient-danger text-white ms-auto"><i class="bi bi-people-fill"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card radius-10">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div>
+                <p class="mb-0 text-secondary">Doanh thu hôm nay</p>
+                <%if(topdh[0].TONGTODAY == null || topdh[0].TONGTODAY == ''){%>
+                    <h4 class="my-1"><%=parseInt(0).toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></h4>
+                <%}else{%>
+                    <h4 class="my-1"><%=topdh[0].TONGTODAY.toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></h4>
+                <%}%>
+                <!-- <i class="bi bi-caret-up-fill"></i> 12.2% so với hôm qua -->
+                <p class="mb-0 font-13 text-success"></p>
+              </div>
+              <div class="widget-icon-large bg-gradient-info text-white ms-auto"><i
+                  class="bi bi-bar-chart-line-fill"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+
+    <div class="row">
+      <div class="col-12 col-lg-6 col-xl-4 d-flex">
+        <div class="card radius-10 w-100">
+          <div class="card-header bg-transparent">
+            <div class="row g-3 align-items-center">
+              <div class="col">
+                <h5 class="mb-0">Top danh mục</h5>
+              </div>
+              <div class="col">
+                <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
+                  <div class="dropdown">
+                    
+                    <!--  -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="categories">
+              <%if(typeof(topdm)!='undefined'){%>
+              <%let sneaker = Math.trunc((topdm[0].SL/topdh[0].TONGSOSP)*100);
+              let casual = Math.trunc((topdm[4].SL/topdh[0].TONGSOSP)*100);
+              let formal = Math.trunc((topdm[3].SL/topdh[0].TONGSOSP)*100);
+              let heel = Math.trunc((topdm[2].SL/topdh[0].TONGSOSP)*100);
+              let sandal = 100-sneaker-casual-formal-heel;%>
+              <div class="progress-wrapper">
+                <p class="mb-2">Giày thể thao<span class="float-end"><%=sneaker%>%</span></p>
+                <div class="progress" style="height: 6px;">
+                  <div class="progress-bar bg-gradient-purple progress-sneaker" role="progressbar" ></div>
+                  <!-- <%=sneaker%> <%=casual%>  <%=formal%>  <%=heel%> <%=sandal%>-->
+                </div>
+              </div>
+              <div class="my-3 border-top"></div>
+              <div class="progress-wrapper">
+                <p class="mb-2">Giày casual<span class="float-end"><%=casual%>%</span></p>
+                <div class="progress" style="height: 6px;">
+                  <div class="progress-bar bg-gradient-danger progress-casual" role="progressbar" ></div>
+                 
+                </div>
+              </div>
+              <div class="my-3 border-top"></div>
+              <div class="progress-wrapper">
+                <p class="mb-2">Giày da <span class="float-end"><%=formal%>%</span></p>
+                <div class="progress" style="height: 6px;">
+                  <div class="progress-bar bg-gradient-success progress-formal" role="progressbar" ></div>
+                 
+                </div>
+              </div>
+              <div class="my-3 border-top"></div>
+              <div class="progress-wrapper">
+                <p class="mb-2">Giày cao gót <span class="float-end"><%=heel%>%</span></p>
+                <div class="progress" style="height: 6px;">
+                  <div class="progress-bar bg-gradient-info progress-heel" role="progressbar" ></div>
+                 
+                </div>
+              </div>
+              <div class="percent-sneaker" style="display: none;" title="<%=sneaker%>"></div>
+              <div class="percent-casual" style="display: none;" title="<%=casual%>"></div>
+              <div class="percent-formal" style="display: none;" title="<%=formal%>"></div>
+              <div class="percent-heel" style="display: none;" title="<%=heel%>"></div>
+              <div class="percent-sandal" style="display: none;" title="<%=sandal%>"></div>
+              <div class="my-3 border-top"></div>
+              <div class="progress-wrapper">
+                <p class="mb-2">Dép sandal <span class="float-end"><%=sandal%>%</span></p>
+                <div class="progress" style="height: 6px;">
+                  <div class="progress-bar bg-gradient-warning progress-sandal" role="progressbar" ></div>
+                 
+                </div>
+              <%}%>
+              </div>
+              <div class="my-3 border-top"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 col-xl-4 d-flex">
+        <div class="card radius-10 w-100">
+          <div class="card-header bg-transparent">
+            <div class="row g-3 align-items-center">
+              <div class="col">
+                <h5 class="mb-0">Sản phẩm bán chạy</h5>
+              </div>
+              <div class="col">
+                <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
+                  <div class="dropdown">
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="best-product p-2 mb-3">
+              <%for(let i of topsell){%>
+              <div class="best-product-item">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="product-box border">
+                    <img src="/public/img/product/<%=i.IDHA%>" alt="">
+                  </div>
+                  <div class="product-info">
+                    <h6 class="product-name mb-1"><%=i.TENSP%></h6>
+                    <!-- <div class="product-rating mb-0">
+                      <i class="bi bi-star-fill text-warning"></i>
+                      <i class="bi bi-star-fill text-warning"></i>
+                      <i class="bi bi-star-fill text-warning"></i>
+                      <i class="bi bi-star-fill text-warning"></i>
+                      <i class="bi bi-star-fill text-warning"></i>
+                    </div> -->
+                  </div>
+                  <div class="sales-count ms-auto">
+                    <p class="mb-0"><%=i.SL%> Sản phẩm đã bán</p>
+                  </div>
+                </div>
+              </div>
+              <%}%>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-12 col-xl-4 d-flex">
+        <div class="card radius-10 w-100">
+          <div class="card-header bg-transparent">
+            <div class="row g-3 align-items-center">
+              <div class="col">
+                <h5 class="mb-0">Người mua gần đây</h5>
+              </div>
+              <div class="col">
+                <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
+                  <div class="dropdown">
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="top-sellers-list p-2 mb-3">
+            <%for(let i of hdmoi){%>
+            <div class="d-flex align-items-center gap-3 sellers-list-item">
+              <img src="/public/img/user-img.png" class="rounded-circle" width="50" height="50" alt="">
+              <div>
+                <%if(i.MAKH==null || i.MAKH==''){%>
+                  <h6 class="mb-1"><%=i.TEN%></h6>
+                <%}else{%>
+                  <h6 class="mb-1"><%=i.TENKH%></h6>
+                <%}%>
+                <p class="mb-0 font-13">Mã KH: <%=i.MAKH==null?'':'#'+i.MAKH%></p>
+              </div>
+              <div class="d-flex align-items-center gap-3 fs-6 ms-auto">
+                <!-- <p class="mb-0">5.0 <i class="bi bi-star-fill text-warning"></i></p> -->
+              </div>
+            </div>
+            <%}%>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end row-->
+
+
+    <div class="card radius-10">
+      <div class="card-header bg-transparent">
+        <div class="row g-3 align-items-center">
+          <div class="col">
+            <h5 class="mb-0">Đơn đặt hàng mới</h5>
+          </div>
+          <div class="col">
+            <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Mã hóa đơn</th>
+                <th>Tên khách hàng</th>
+                <th>Số lượng sản phẩm</th>
+                <th>Tổng tiền</th>
+                <th>Ngày lập hóa đơn</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%for(let i of hdmoi){%>
+              <tr>
+                <td>#<%=i.MAHD%></td>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <!-- <div class="product-box border">
+                      <img src="/public/img/product/100_1.jpg" alt="">
+                    </div> -->
+                    <div class="product-info">
+                      <%if(i.MAKH==null || i.MAKH==''){%>
+                        <h6 class="mb-1"><%=i.TEN%></h6>
+                      <%}else{%>
+                        <h6 class="mb-1"><%=i.TENKH%></h6>
+                      <%}%>
+                    </div>
+                  </div>
+                </td>
+                <td><%=i.SOSP%></td>
+                <td><%=i.TONGTIEN.toLocaleString('vi', {style : 'currency' , currency: 'VND' })%></td>
+                <td><%=i.NGAYLAP.toLocaleDateString("en-US",{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })%></td>
+              </tr>
+              <%}%>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+  </main>
+  <!--end page main-->
+  <script>
+    document.querySelector('.progress-sandal').style.width = `${document.querySelector('.percent-sandal').title}%`
+    document.querySelector('.progress-sneaker').style.width = `${document.querySelector('.percent-sneaker').title}%`
+    document.querySelector('.progress-casual').style.width = `${document.querySelector('.percent-casual').title}%`
+    document.querySelector('.progress-heel').style.width = `${document.querySelector('.percent-heel').title}%`
+    document.querySelector('.progress-formal').style.width = `${document.querySelector('.percent-formal').title}%`
+  </script>
+
+
+  

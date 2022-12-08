@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en" class="minimal-theme">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/public/img/web-icon.png" type="image/png" />
+    <!--plugins-->
+    <link href="/public/admin_site/simplebar/css/simplebar.css" rel="stylesheet" />
+    <link href="/public/admin_site/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+    <link href="/public/admin_site/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="/public/admin_site/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/public/admin_site/css/bootstrap-extended.css" rel="stylesheet" />
+    <link href="/public/admin_site/css/style.css" rel="stylesheet" />
+    <link href="/public/admin_site/css/icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <!-- loader-->
+    <link href="/public/admin_site/css/pace.min.css" rel="stylesheet" />
+
+
+    <title>
+        <%=(typeof title != "undefined" ? title : "")%>
+    </title>
+</head>
+
+<body>
+    <!--start wrapper-->
+    <div class="wrapper">
+        <!--start top header-->
+        <header class="top-header">
+            <nav class="navbar navbar-expand">
+                <div class="mobile-toggle-icon d-xl-none">
+                    <i class="bi bi-list"></i>
+                </div>
+                <div class="top-navbar d-none d-xl-block">
+                    <ul class="navbar-nav align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost:3000/fermeh/admin-site">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost:3000/fermeh/admin/list-product">Sản phẩm</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost:3000/fermeh/admin/product-category">Kho</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost:3000/fermeh/admin/orders">Đơn hàng</a>
+                        </li>
+                        <li class="nav-item d-none d-xxl-block">
+                            <a class="nav-link" href="http://localhost:3000/fermeh/admin/list-customer">Khách hàng</a>
+                        </li>
+                        <li class="nav-item d-none d-xxl-block">
+                            <%if(role=='3'){%>
+                            <a class="nav-link" href="http://localhost:3000/fermeh/admin/list-staff">Nhân viên</a>
+                            <%}%>
+                        </li>
+                    </ul>
+                </div>
+                <div class="search-toggle-icon d-xl-none ms-auto">
+                    <i class="bi bi-search"></i>
+                </div>
+                <form class="searchbar d-none d-xl-flex ms-auto">
+                    <div class="position-absolute top-50 translate-middle-y search-icon ms-3"><i
+                            class="bi bi-search"></i></div>
+                    <input class="form-control" type="text" placeholder="Tìm kiếm">
+                    <div class="position-absolute top-50 translate-middle-y d-block d-xl-none search-close-icon"><i
+                            class="bi bi-x-lg"></i></div>
+                </form>
+                <div class="top-navbar-right ms-3">
+                    <ul class="navbar-nav align-items-center">
+                        <li class="nav-item dropdown dropdown-large">
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
+                                data-bs-toggle="dropdown">
+                                <div class="user-setting d-flex align-items-center gap-1">
+                                    <!-- <img src="/public/img/web-icon.png" class="user-img" alt=""> -->
+                                    <div class="user-name d-none d-sm-block" style="padding:0 10px ;"><%=tentk%></div>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="/fermeh/admin/user-profile">
+                                        <div class="d-flex align-items-center">
+                                            <!-- <img src="/public/img/slider-img/mau-anh-1.jpg" alt=""
+                                                class="rounded-circle" width="60" height="60"> -->
+                                            <div class="ms-3">
+                                                <h6 class="mb-0 dropdown-user-name"><%=tentk%></h6>
+                                                <small class="mb-0 dropdown-user-designation text-secondary"></small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/fermeh/admin/user-profile">
+                                        <div class="d-flex align-items-center">
+                                            <div class="setting-icon"><i class="bi bi-person-fill"></i></div>
+                                            <div class="setting-text ms-3"><span>Lý lịch</span></div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/fermeh/admin/setting">
+                                        <div class="d-flex align-items-center">
+                                            <div class="setting-icon"><i class="bi bi-gear-fill"></i></div>
+                                            <div class="setting-text ms-3"><span>Đổi mật khẩu</span></div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/fermeh/admin/log-out">
+                                        <div class="d-flex align-items-center">
+                                            <div class="setting-icon"><i class="bi bi-lock-fill"></i></div>
+                                            <div class="setting-text ms-3"><span>Đăng xuất</span></div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown dropdown-large">
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
+                                data-bs-toggle="dropdown">
+                                <div class="projects">
+                                    <i class="bi bi-grid-3x3-gap-fill"></i>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <div class="row row-cols-3 gx-2">
+                                    <div class="col">
+                                        <a href="/fermeh/admin/orders">
+                                            <div class="apps p-2 radius-10 text-center">
+                                                <div class="apps-icon-box mb-1 text-white bg-primary bg-gradient">
+                                                    <i class="bi bi-cart-plus-fill"></i>
+                                                </div>
+                                                <p class="mb-0 apps-name">Đơn hàng</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="/fermeh/admin/list-customer">
+                                            <div class="apps p-2 radius-10 text-center">
+                                                <div class="apps-icon-box mb-1 text-white bg-danger bg-gradient">
+                                                    <i class="bi bi-people-fill"></i>
+                                                </div>
+                                                <p class="mb-0 apps-name">Người dùng</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="/fermeh/admin/list-product">
+                                            <div class="apps p-2 radius-10 text-center">
+                                                <div class="apps-icon-box mb-1 text-white bg-success bg-gradient">
+                                                    <i class="bi bi-bank2"></i>
+                                                </div>
+                                                <p class="mb-0 apps-name">Sản phẩm</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    
+                                        <%if(role=='3'){%>
+                                            <div class="col">
+                                            <a href="/fermeh/admin/list-staff">
+                                                <div class="apps p-2 radius-10 text-center">
+                                                    <div class="apps-icon-box mb-1 text-white bg-purple bg-gradient">
+                                                        <i class="bi bi-person-circle"></i>
+                                                    </div>
+                                                    <p class="mb-0 apps-name">Nhân viên</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <%}%>  
+                                    
+                                    <div class="col">
+                                        <a href="/fermeh/admin/sale-report">
+                                            <div class="apps p-2 radius-10 text-center">
+                                                <div class="apps-icon-box mb-1 text-dark bg-info bg-gradient">
+                                                    <i class="bi bi-file-earmark-text-fill"></i>
+                                                </div>
+                                                <p class="mb-0 apps-name">Báo cáo</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="/fermeh/admin/user-report">
+                                            <div class="apps p-2 radius-10 text-center">
+                                                <div class="apps-icon-box mb-1 text-white bg-pink bg-gradient">
+                                                    <i class="bi bi-credit-card-fill"></i>
+                                                </div>
+                                                <p class="mb-0 apps-name">Doanh thu</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <!--end row-->
+                                </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!--end top header-->
+
+        <!--start sidebar -->
+        <!-- NAVIGATION -->
+        <aside class="sidebar-wrapper">
+            <div class="iconmenu">
+                <div class="nav-toggle-box">
+                    <div class="nav-toggle-icon"><i class="bi bi-list"></i></div>
+                </div>
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Trang chủ">
+                        <a href="/fermeh/admin-site"><button class="nav-link" data-bs-toggle="pill"
+                                data-bs-target="#pills-dashboards" type="button"><i
+                                    class="bi bi-house-door-fill"></i></button></a>
+                    </li>
+                    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Ứng dụng">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-application"
+                            type="button"><i class="bi bi-grid-fill"></i></button>
+                    </li>
+                    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Đơn hàng">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-widgets" type="button">
+                            <i class="bi bi-basket"></i>
+                        </button>
+                    </li>
+                    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Sản phẩm">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-ecommerce" type="button">
+                            <i class="bi bi-briefcase-fill"></i>
+                        </button>
+                    </li>
+                    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Báo cáo">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-tables" type="button"><i
+                                class="bi bi-file-earmark-spreadsheet-fill"></i></button>
+                    </li>
+                    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Nhân sự">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-components" type="button">
+                            <i class="bi bi-person-circle"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="textmenu">
+                <div class="brand-logo" style="justify-content: center;">
+                    <!-- <img src="/public/img/web-icon.png" width="140" alt="" /> -->
+                    <h4 style="margin: 0;"><a href="http://localhost:3000/fermeh/admin-site">FERMEH</a></h4>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade" id="pills-application">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-0">Ứng dụng</h5>
+                                </div>
+                                <small class="mb-0">Tìm kiếm</small>
+                            </div>
+                            <a href="/fermeh/admin/list-customer" class="list-group-item"><i
+                                    class="bi bi-binoculars"></i>Tìm kiếm khách hàng</a>
+                            <a href="/fermeh/admin/sale" class="list-group-item"><i class="bi bi-plus-square"></i>Khuyến
+                                mãi</a>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-widgets">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-0">Đơn hàng</h5>
+                                </div>
+                                <small class="mb-0">Thông tin về đơn hàng</small>
+                            </div>
+                            <a href="/fermeh/admin/orders" class="list-group-item"><i class="bi bi-binoculars"></i>Đơn
+                                hàng</a>
+                            <a href="/fermeh/admin/detail-orders" class="list-group-item"><i
+                                    class="bi bi-bar-chart"></i>Chi tiết đơn hàng</a>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-ecommerce">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-0">Sản phẩm</h5>
+                                </div>
+                                <small class="mb-0">Thông tin kho và các sự kiện</small>
+                            </div>
+                            <a href="/fermeh/admin/product-category" class="list-group-item">
+                                <i class="bi bi-box-seam"></i>Kho</a>
+                            <a href="/fermeh/admin/import-product" class="list-group-item"><i
+                                class="bi bi-plus-square"></i>Nhập hàng</a>
+                            <a href="/fermeh/admin/add-new-product" class="list-group-item"><i
+                                class="bi bi-plus-square"></i>Thêm sản phẩm mới</a>
+                            <a href="/fermeh/admin/list-product" class="list-group-item">
+                                <i class="bi bi-card-text"></i>Danh sách sản phẩm</a>
+                            <!-- <a href="/fermeh/admin/change-product-price" class="list-group-item">
+                                <i class="bi bi-currency-exchange"></i>Thay đổi giá sản phẩm</a> -->
+                            <!-- <a href="ecommerce-transactions.html" class="list-group-item"><i class="bi bi-handbag"></i>Giao dịch</a> -->
+                            
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-components">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-0">Nhân viên</h5>
+                                </div>
+                                <small class="mb-0">Quản lý nhân viên</small>
+                            </div>
+                            <%if(role=='3'){%>
+                                <a href="/fermeh/admin/list-staff" class="list-group-item"><i
+                                    class="bi bi-person-lines-fill"></i>Danh sách nhân viên</a>
+                                <a href="/fermeh/admin/add-new-staff" class="list-group-item">
+                                    <i class="bi bi-plus-square"></i>Thêm nhân viên mới</a>
+                            <%}%>
+                        
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-tables">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-0">Báo cáo</h5>
+                                </div>
+                                <small class="mb-0">Tổng hợp báo cáo thống kê</small>
+                            </div>
+                            <a href="/fermeh/admin/sale-report" class="list-group-item"><i class="bi bi-table"></i>Báo
+                                cáo doanh thu</a>
+                            <a href="/fermeh/admin/user-report" class="list-group-item"><i
+                                    class="bi bi-basket3"></i>Doanh số khách hàng</a>
+                            <!-- <a href="/fermeh/admin/store-sale" class="list-group-item"><i
+                                    class="bi bi-graph-up"></i>Doanh số cửa hàng</a> -->
+                        </div>
+                    </div>
+                    <!-- <div class="tab-pane fade" id="pills-charts">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-0">Biểu đồ</h5>
+                                </div>
+                                <small class="mb-0">Some placeholder content</small>
+                            </div>
+                            <a href="charts-chartjs.html" class="list-group-item"><i class="bi bi-bar-chart"></i>Chart
+                                JS</a>
+                            <a href="charts-apex-chart.html" class="list-group-item"><i class="bi bi-pie-chart"></i>Apex
+                                Chart</a>
+                            <a href="charts-highcharts.html" class="list-group-item"><i
+                                    class="bi bi-graph-up"></i>Highcharts</a>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </aside>
+        <!--start sidebar -->
+        <main>
+            <%-body%>
+        </main>
+        <!--start overlay-->
+        <div class="overlay nav-toggle-icon"></div>
+        <!--end overlay-->
+
+        <!--Start Back To Top Button-->
+        <a href="javaScript:;" class="back-to-top"><i class="bi bi-arrow-up-circle-fill"></i></a>
+        <!--End Back To Top Button-->
+
+        <!--start switcher-->
+        <!--end switcher-->
+
+    </div>
+    <script src="/public/admin_site/js/bootstrap.bundle.min.js"></script>
+    <!--plugins-->
+    <script src="/public/admin_site/js/jquery.min.js"></script>
+    <script src="/public/admin_site/simplebar/js/simplebar.min.js"></script>
+    <script src="/public/admin_site/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+    <script src="/public/admin_site/js/pace.min.js"></script>
+    <script src="/public/admin_site/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+    <script src="/public/admin_site/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="/public/admin_site/apexcharts.min.js"></script>
+    <!--app-->
+    <script src="/public/admin_site/js/app.js"></script>
+    <script src="/public/admin_site/js/index.js"></script>
+
+    <script>
+        new PerfectScrollbar(".best-product")
+        new PerfectScrollbar(".top-sellers-list")
+    </script>
+
+
+</body>
+
+</html>
