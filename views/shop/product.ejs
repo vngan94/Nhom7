@@ -114,9 +114,16 @@
                         </div>
                     </form>
                         <div class="row mb-3 ps-2">
-                            <form action="/fermeh/add-to-fav/<%=detail[0].MASP%>" method="post">
+                            <form action="/fermeh/buy-now/<%=detail[0].MASP%>" method="post" class="col-6 ps-0" ">
+                                <input type="text" name="size" value="37" style="display: none;" id="buy_size">
+                                <input type="text" name="quantity" value="1" style="display: none;" id="buy_quantity">
+                                <button class="btn rounded-pill py-3 border border-2 btn-dark"  style="width: calc(95% + 16px);" type="submit" id="btn-buy-now">
+                                    MUA NGAY
+                                </button>
+                            </form>
+                            <form action="/fermeh/add-to-fav/<%=detail[0].MASP%>" method="post" class="col-4">
                                 <input type="text" name="size_choose" value="xx" style="display: none;" id="size_to_fav">
-                                <button class="btn btn-light rounded-pill py-3 border border-2"  style="width: calc(75% + 16px);" type="submit" id="add-to-love">
+                                <button class="btn btn-light rounded-pill py-3 border border-2"  style="width: calc(80% + 16px);" type="submit" id="add-to-love">
                                     YÊU THÍCH
                                 </button>
                             </form>

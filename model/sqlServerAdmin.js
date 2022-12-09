@@ -4,7 +4,7 @@ var config = {
     server: "localhost",
     user: "MANAGER",
     password: '123',
-    database: 'QLWEBBH',
+    database: 'PTTKHTTT',
     driver: 'msnodesqlv8'
 }
 

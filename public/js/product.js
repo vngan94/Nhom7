@@ -4,6 +4,13 @@ $(document).ready(() => {
     var radio_button = document.querySelectorAll('.radio-button')
     var addFav = document.querySelector("#add-to-love")
     var sizeFav = document.querySelector("#size_to_fav")
+    /* 
+    test
+    */
+    $('#select_size').on('change', () => {
+        $('#buy_quantity').val($('#select_size').val())
+        console.log($("#buy_quantity").val())
+    })
     for (let i of inputSize) {
         $.ajax({
             url: "/fermeh/detail/product/count-number-procduct",
@@ -94,6 +101,7 @@ $(document).ready(() => {
         i.onclick = () => {
             // console.log(i.parentElement.children[1])
             // console.log(document.URL.split('/'))
+            $("#buy_size").val(i.textContent.trim())
             $.ajax({
                 url: "/fermeh/detail/product/count-number-procduct",
                 method: "POST",
@@ -119,4 +127,35 @@ $(document).ready(() => {
                 })
         }
     }
+    // test
+    document.querySelector("#btn-buy-now").onclick = (e) => {
+        let cnt = 0;
+        var masp = document.URL.split('/')[document.URL.split('/').length - 1]
+        for (let i of radio_button) {
+            if (i.checked) {
+                cnt++;
+                document.querySelector('.warning-text').innerText = ''
+                $('#buy_quantity').val($('#select_size').val())
+                $.ajax({
+                    url: `/fermeh/add-to-cart/${masp}`,
+                    method: "POST",
+                    data: { id: masp, size_choose: $('#buy_size').val(), num: $('#select_size').val() }
+                })
+                    .done((res) => {
+                        if (res.done == true) {
+                            console.log('(buy-now)success')
+                        }
+                    })
+                    .fail(() => {
+                        alert('(buy-now)fail')
+                    })
+            }
+        }
+        if (cnt == 0) {
+            e.preventDefault()
+            document.querySelector('.warning-text').innerText = 'Vui lòng chọn size!'
+        }
+
+    }
+    // test
 })

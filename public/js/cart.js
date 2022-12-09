@@ -287,19 +287,19 @@ for (let i of list_delete_btn) {
         document.querySelector(`#product_${i.value}`).style.display = "none"
         let money = parseInt(document.querySelector(`#price_${i.value}`).title)
         let bf = document.querySelector("#price_before")
-        let tt = document.querySelector("#price_total")
+        //let tt = document.querySelector("#price_total")
         let value_bf = (parseInt(bf.title) - money)
-        let value_tt = (parseInt(tt.title) - money)
+        //let value_tt = (parseInt(tt.title) - money)
         bf.innerText = value_bf.toLocaleString('vi', {
             style: 'currency',
             currency: 'VND'
         })
-        tt.innerText = value_tt.toLocaleString('vi', {
-            style: 'currency',
-            currency: 'VND'
-        })
+        // tt.innerText = value_tt.toLocaleString('vi', {
+        //     style: 'currency',
+        //     currency: 'VND'
+        // })
         bf.title = value_bf
-        tt.title = value_tt
+        //tt.title = value_tt
         if (parseInt(value_bf) === 0) {
             $('.non-product').show()
         }
