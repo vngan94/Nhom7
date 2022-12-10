@@ -604,7 +604,7 @@ route.post('/fermeh/admin/import-product/add', CatchAsync(async (req, res) => {
         var num = parseInt(req.body.productnumber)
         let pool = await conn
         for (let i = 0; i < num; i++) {
-            await pool.request().query(`insert into SANPHAM(MASP,SOLD,SIZE) values(${code},1,${size})`, async (err, data) => {
+            await pool.request().query(`insert into SANPHAM(MASP,SOLD,SIZE) values(${code},0,${size})`, async (err, data) => {
             })
         }
         res.redirect('http://localhost:3000/fermeh/admin/import-product')
