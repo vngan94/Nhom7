@@ -35,7 +35,7 @@ var sdt = '';
 
 // twilio
 const accountSid = 'AC5429aea41a4748909dc37c8ab7c3b028';
-const authToken = 'f2de31c81b05164985ec5313561067d1'; // twilio nó đổi mỗi ngày, khi thi thì cập nhật lại
+const authToken = '8a818395541cb5de30999e506ba2a162'; // twilio nó đổi mỗi ngày, khi thi thì cập nhật lại
 const client = require('twilio')(accountSid, authToken);
 const sid = 'VA913c8372afba57319fde0f937880e089';
 
@@ -190,22 +190,22 @@ app.get('/fermeh/fogot-password', CatchAsync(async (req, res) => {
 app.post('/fermeh/fogot-password', CatchAsync(async (req, res) => {
     let phoneNumber = req.body.phoneNum
     let pool = await conn
-   
-        await pool.request().query(`select SDT FROM KHACHHANG where SDT='${phoneNumber}'`, async (err, data) => {
+
+    await pool.request().query(`select SDT FROM KHACHHANG where SDT='${phoneNumber}'`, async (err, data) => {
         if (data.recordset.length > 0) {
-             // send OTP
+            // send OTP
             let str = phoneNumber;
             str = '+84' + str.substring(1)
             await client.verify.v2.services(sid)
                 .verifications
                 .create({ to: str, channel: 'sms' })
                 .then(data => {
-                     res.send({ done: true })
-             }).catch(err => {
-                console.log("Err" + err)
-                res.send({ done: false, message: "Lỗi gửi OTP!" })
-             })
-           
+                    res.send({ done: true })
+                }).catch(err => {
+                    console.log("Err" + err)
+                    res.send({ done: false, message: "Lỗi gửi OTP!" })
+                })
+
         } else {
             res.send({ done: false, message: "Số điện thoại chưa được đăng kí!" })
         }
@@ -213,14 +213,14 @@ app.post('/fermeh/fogot-password', CatchAsync(async (req, res) => {
 }))
 app.get('/fermeh/OTP/:phone', CatchAsync(async (req, res) => {
     let x = req.params.phone
-    
-    res.render('shop/OTP', { title: "Xác nhận OTP", sdt:x })
+
+    res.render('shop/OTP', { title: "Xác nhận OTP", sdt: x })
 }))
 
 app.post('/fermeh/OTP', CatchAsync(async (req, res) => {
     await client.verify.v2.services(sid)
         .verificationChecks
-        .create({ to: req.body.phoneNumber, code: req.body.OTP})
+        .create({ to: req.body.phoneNumber, code: req.body.OTP })
         .then(verification_check => {
             console.log("verify status " + verification_check.status)
             if (verification_check.status === 'approved') {
@@ -228,7 +228,7 @@ app.post('/fermeh/OTP', CatchAsync(async (req, res) => {
                 res.send({ done: true })
             }
             else {
-               
+
                 // nhập mã OTP sai
                 res.send({ done: false, message: "Mã OTP không đúng, vui lòng nhập lại!" })
             }
@@ -237,14 +237,14 @@ app.post('/fermeh/OTP', CatchAsync(async (req, res) => {
             console.log("check err ", err)
             res.send({ done: false })
         })
-    
+
 }))
- 
+
 app.get('/fermeh/create-new-password/:phoneNumber', CatchAsync(async (req, res) => {
     let x = req.params.phoneNumber
-    x = '0' + x.substring(3); 
+    x = '0' + x.substring(3);
     console.log("get")
-    res.render('shop/createnewpass', {title: 'Tạo mật khẩu mới', sdt: x})
+    res.render('shop/createnewpass', { title: 'Tạo mật khẩu mới', sdt: x })
 }))
 
 app.post('/fermeh/create-new-password', CatchAsync(async (req, res) => {
@@ -258,13 +258,13 @@ app.post('/fermeh/create-new-password', CatchAsync(async (req, res) => {
         data: null
     }).then((res) => { cipherPass = res.data.Digest })
         .catch((err) => { console.log("errrrr", err) })
-    console.log("cipher", cipherPass )
+    console.log("cipher", cipherPass)
     let sql = `UPDATE TAIKHOAN_KH SET MATKHAU = '${cipherPass}' WHERE MAKH=(SELECT MAKH FROM KHACHHANG WHERE SDT='${phoneNumber}')`
-      
-        let pool = await conn
-        await pool.request().query(sql)
-       
-    res.send({done: true})
+
+    let pool = await conn
+    await pool.request().query(sql)
+
+    res.send({ done: true })
 }))
 
 
@@ -274,7 +274,7 @@ app.post('/fermeh/create-new-password', CatchAsync(async (req, res) => {
 //
 //
 app.post('/fermeh/login', CatchAsync(async (req, res) => {
-    
+
     let phoneNum = req.body.phoneNumber
     let pass = req.body.password
     let cipherPass
@@ -916,78 +916,79 @@ app.post('/fermeh/user/changeUsername', async (req, res) => {
     res.redirect("/fermeh/user/setting");
 })
 
-app.get('/fermeh/user/detail_order',CatchAsync(async(req,res)=> {
+app.get('/fermeh/user/detail_order', CatchAsync(async (req, res) => {
     // console.log("in", req.cookies.sdt)
-    
+
     if (req.cookies.sdt == '' || typeof (req.cookies.sdt) == 'undefined') {
         res.redirect('http://localhost:3000/fermeh/login')
     }
     else {
-        
+
         var madh = parseInt(req.query.madh)
         var mahd = parseInt(req.query.mahd)
-         console.log("mahd", req.query)
+        console.log("mahd", req.query)
         let sqlDetail = `exec renderDetailCTHD @mahd=${mahd}`
-            let sqlBill = `exec renderDetailBill @mahd=${mahd}`
-            let sqlTime = `EXEC exec_rendertime  @iddh=${madh}`
+        let sqlBill = `exec renderDetailBill @mahd=${mahd}`
+        let sqlTime = `EXEC exec_rendertime  @iddh=${madh}`
 
         let pool = await conn
         await pool.request().query(sqlBill, async (err, data) => {
-             console.log("in", data)
-                var hd = data.recordset
-                 //bill
-                await pool.request().query(sqlDetail, async (err, data) => {
-                    var detail = data.recordset
-                     console.log("in",detail) // detail
-                    
-                
+            console.log("in", data)
+            var hd = data.recordset
+            //bill
+            await pool.request().query(sqlDetail, async (err, data) => {
+                var detail = data.recordset
+                console.log("in", detail) // detail
+
+
                 await pool.request().query(sqlTime, async (err, data) => {
-                   
-                       console.log("in2", data.recordset) // detail
-                    res.render('user/detail_order', { title: "Chi tiết đơn hàng", detail: detail, time: data.recordset, bill: hd, taikhoan: req.cookies.taikhoan, sdt: req.cookies.sdt }) 
-                 })
+
+                    console.log("in2", data.recordset) // detail
+                    res.render('user/detail_order', { title: "Chi tiết đơn hàng", detail: detail, time: data.recordset, bill: hd, taikhoan: req.cookies.taikhoan, sdt: req.cookies.sdt })
+                })
             })
-            
+
         })
-        
-    }}))    
+
+    }
+}))
 
 //
 app.get('/fermeh/user/order', async (req, res) => {
-   
+
     // console.log("in", req.cookies.sdt)
     if (req.cookies.sdt == '' || typeof (req.cookies.sdt) == 'undefined') {
         res.redirect('http://localhost:3000/fermeh/login')
     }
     else {
-    let pool = await conn
-    // console.log(req.cookies.sdt)
-    await pool.request().query(`exec exe_renderBill '${req.cookies.sdt}'`, async (err, data) => {
-        var bill = data.recordset
-        //   console.log(bill)
-        var arr = []
-        while (bill.length > 0) {
-            var tmp = []
-            let j = bill.shift()
-            tmp.push(j)
-            let i = 0;
-            while (i < bill.length) {
-                if (bill[i].MAHD == j.MAHD) {
-                    let tg = bill.splice(i, 1)
-                    tmp.push(tg[0])
+        let pool = await conn
+        // console.log(req.cookies.sdt)
+        await pool.request().query(`exec exe_renderBill '${req.cookies.sdt}'`, async (err, data) => {
+            var bill = data.recordset
+            //   console.log(bill)
+            var arr = []
+            while (bill.length > 0) {
+                var tmp = []
+                let j = bill.shift()
+                tmp.push(j)
+                let i = 0;
+                while (i < bill.length) {
+                    if (bill[i].MAHD == j.MAHD) {
+                        let tg = bill.splice(i, 1)
+                        tmp.push(tg[0])
+                    }
+                    else {
+                        i++;
+                    }
                 }
-                else {
-                    i++;
-                }
+                arr.push(tmp)
             }
-            arr.push(tmp)
-        }
-        // console.log("arr", arr)
-        
-        // console.log(arr[0][0].NGAYLAP)
-        res.render('user/order', { title: 'Đơn hàng đã mua', taikhoan: req.cookies.taikhoan, sdt: req.cookies.sdt, arr: arr })
-    })
-}
+            // console.log("arr", arr)
+
+            // console.log(arr[0][0].NGAYLAP)
+            res.render('user/order', { title: 'Đơn hàng đã mua', taikhoan: req.cookies.taikhoan, sdt: req.cookies.sdt, arr: arr })
+        })
+    }
 })
 //-------------------------------HUY DON HANG
 app.post('/fermeh/user/order/cancel-order', CatchAsync(async (req, res) => {
@@ -995,24 +996,24 @@ app.post('/fermeh/user/order/cancel-order', CatchAsync(async (req, res) => {
         res.render("shop/login", { title: "Đăng nhập", message: "" })
     }
     else {
-        console.log("in",req.body)
+        console.log("in", req.body)
         let mahd = req.body.mahd
         let pool = await conn
-        let time = `exec insert_time @idhd = ${mahd}, @idtt = 1` 
+        let time = `exec insert_time @idhd = ${mahd}, @idtt = 1`
         await pool.request().query(time, async (err, data) => {
             await pool.request().query(`update DONHANG set IDTINHTRANG = 1 where IDHD=${mahd} select IDSP from CTHD where MAHD=${mahd}`, async (err, data) => {
                 console.log(data.recordset)
                 for (let i of data.recordset) {
                     console.log(i)
                     await pool.request().query(`update SANPHAM set SOLD=0 where IDSP=${i.IDSP}`, async (err, data) => {
-                })
-            }
-            
-            res.send({ done: true })
+                    })
+                }
+
+                res.send({ done: true })
             })
         })
     }
-    
+
 }))
 //-------------------------------HUY DON HANG
 //---------------------------SEARCH FORM--------------------------------
@@ -1405,7 +1406,7 @@ app.post('/fermeh/ajax/setting/change-password', CatchAsync(async (req, res) => 
         pool.request().query(sqlChk, async (err, data) => {
             if (data.recordset.length > 0) {
                 let nsql = `exec exe_updatePassKH '${req.cookies.sdt}','${newPass}'`
-                await pool.request().query(nsql, (err, data) => {
+                pool.request().query(nsql, (err, data) => {
                     res.send({ error: true })
                 })
             }
@@ -1418,24 +1419,18 @@ app.post('/fermeh/ajax/setting/change-password', CatchAsync(async (req, res) => 
         res.send({ error: false })
     }
 }))
-//
-//
-// app.get('/slot', async (req, res) => {
-//     let pool = await conn
-//     for (let i = 315; i <= 412; i++) {
-//         await pool.request().query(`insert into HINHANH values('${i - 103 * 3}_4',${i - 306})`, (err, data) => {
-
-//         })
-//     }
-//     res.send('success')
-// })
-// app.post('/slot', upload.single('image'), async (req, res) => {
-//     console.log(req.file, req.body)
-//     res.redirect('http://localhost:3000/slot')
-// })
-//
-//
-//thay doi mat khau
+//----------------------------------BUY NOW #MUANGAY MUA NGAY----------------------------
+app.post('/fermeh/buy-now/:id', async (req, res) => {
+    let id = req.params.id
+    let size = req.body.size
+    let quantity = req.body.quantity
+    let sql = `insert into  GIOHANG values((select MAKH from KHACHHANG where SDT='${req.cookies.sdt}'),${id}, ${size}, ${quantity})`
+    let pool = await conn
+    pool.request().query(sql, (err, data) => { })
+    setInterval(() => { }, 50)
+    res.redirect(`/fermeh/payment?chk_${id}_${size}=on`)
+})
+//----------------------------------BUY NOW #MUANGAY MUA NGAY----------------------------
 //-----------------------------------AJAX-------------------------------
 app.use(adminRoutes)
 app.all('*', (req, res, next) => {
