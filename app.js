@@ -35,7 +35,7 @@ var sdt = '';
 
 // twilio
 const accountSid = 'AC5429aea41a4748909dc37c8ab7c3b028';
-const authToken = 'f2de31c81b05164985ec5313561067d1'; // twilio nó đổi mỗi ngày, khi thi thì cập nhật lại
+const authToken = '8a818395541cb5de30999e506ba2a162'; // twilio nó đổi mỗi ngày, khi thi thì cập nhật lại
 const client = require('twilio')(accountSid, authToken);
 const sid = 'VA913c8372afba57319fde0f937880e089';
 
